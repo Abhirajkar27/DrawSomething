@@ -1,0 +1,140 @@
+.CreationLanding_G6h5 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f4f8;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  width: 100%;
+  font-family: "Poppins", sans-serif;
+}
+
+.CreationLanding_G6h5 > div:first-child {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.CreationLanding_G6h5 > div > button {
+  background-color: transparent;
+  border: none;
+  margin: 0 5px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.CreationLanding_G6h5 > div > button:hover {
+  transform: scale(1.1);
+}
+
+.CreationLanding_G6h5 > div > button > svg {
+  font-size: 20px;
+}
+
+.CreationLanding_G6h5 > div > button:first-of-type svg {
+  color: black;
+}
+
+.CreationLanding_G6h5 > div > button:nth-of-type(2) svg {
+  color: #4a90e2;
+}
+
+.CreationLanding_G6h5 > div > button:nth-of-type(3) svg {
+  color: #50c878;
+}
+
+.CreationLanding_G6h5 > div > button:nth-of-type(4) svg {
+  color: #ffffff;
+  background-color: #333;
+  border-radius: 50%;
+  padding: 5px;
+}
+
+.CreationLanding_G6h5 > div > button:nth-of-type(5),
+.CreationLanding_G6h5 > div > button:nth-of-type(6),
+.CreationLanding_G6h5 > div > button:nth-of-type(7) {
+  padding: 10px 20px;
+  margin: 5px;
+  font-size: 16px;
+  border: 2px solid #333;
+  border-radius: 25px;
+  background-color: #fff;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+.CreationLanding_G6h5 > div > button:nth-of-type(5):hover,
+.CreationLanding_G6h5 > div > button:nth-of-type(6):hover,
+.CreationLanding_G6h5 > div > button:nth-of-type(7):hover {
+  background-color: #333;
+  color: #fff;
+}
+
+.CreationLanding_G6h5 > canvas {
+  border: 2px solid #4a4a4a;
+  margin-top: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.CreationLanding_G6h5 > div:last-child > button {
+  background-color: #ff5e5e;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 10px;
+  border-radius: 25px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.CreationLanding_G6h5 > div:last-child > button:hover {
+  background-color: #e04848;
+}
+
+.CreationLanding_G6h5 > div:last-child > button:nth-of-type(2) {
+  background-color: #4a90e2;
+}
+
+.CreationLanding_G6h5 > div:last-child > button:nth-of-type(2):hover {
+  background-color: #407ac1;
+}
+
+.CreationLanding_G6h5 > div:last-child {
+  margin-top: 20px;
+}
+
+.CreationLanding_G6h5 > div > div {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ff5e5e;
+  margin-top: 15px;
+}
+.CreationLanding_G6h5 > div:nth-of-type(3) > button,
+.CreationLanding_G6h5 > div:nth-of-type(3) > button {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  height: 5vh;
+  width: 35vw;
+  bottom: 10vh;
+  border-radius: 2.8125rem;
+  border: 1px solid var(--Accent-Accent--05-Accent-05, #33f5f5);
+  background: rgba(51, 245, 245, 0.3);
+  margin-top: 2vh;
+}
+
+.CreationLanding_G6h5 > div:nth-of-type(3) > button span,
+.CreationLanding_G6h5 > div:nth-of-type(3) > button span {
+  color: var(--Light-Light--100, #000);
+  text-align: center;
+  font-family: "Pilat Extended";
+  font-size: 1.75vh;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 100%;
+  text-transform: uppercase;
+}
