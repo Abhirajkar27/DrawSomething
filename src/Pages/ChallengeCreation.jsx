@@ -41,7 +41,6 @@ const Paint = (props) => {
   }, []);
 
   const startDrawing = (event) => {
-    console.log("hey drawing Started");
     setIsDrawn(true);
     const nativeEvent = event.nativeEvent;
     const { offsetX, offsetY } =
