@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaintBrush, faEraser } from "@fortawesome/free-solid-svg-icons";
-import "./Paint.css";
+import "./ChallengeCreation.css";
 
 const Paint = (props) => {
   const canvasRef = useRef(null);

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Paint from "./Paint"; 
+import Paint from "../Pages/ChallengeCreation"; 
 import './WordSelection.css';
 
 const WordSelection = () => {
