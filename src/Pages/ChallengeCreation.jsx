@@ -18,7 +18,7 @@ const Paint = (props) => {
   const chunksRef = useRef([]);
   const [videoURL, setVideoURL] = useState(null);
   const [imgString, setImgString] = useState(null);
-  const [isDrawn, setIsDrawn] = useState(false);
+  const [isDrawn, setIsDrawn] = useState();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -105,7 +105,7 @@ const Paint = (props) => {
   };
 
   const downloadImage = () => {
-    if (isDrawn) {
+    if (isDrawn!=false) {
       const canvas = canvasRef.current;
       const image = canvas.toDataURL("image/png");
       const base64Drawing = image.split(",")[1];
@@ -160,7 +160,7 @@ const Paint = (props) => {
     // Disable drawing
     setIsDrawing(false);
 
-    if (isDrawn) {
+    if (isDrawn!=false) {
       mediaRecorderRef.current.onstop = async () => {
         const videoBlob = new Blob(chunksRef.current, {
           type: "video/webm; codecs=vp9",
@@ -264,7 +264,7 @@ const Paint = (props) => {
     if (!isDrawn) {
       return (
         <div>
-          <h2>You Havent Drawn Anything!!</h2>
+          <h2>You Haven't Drawn Anything!!</h2>
         </div>
       );
     }
