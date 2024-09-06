@@ -18,6 +18,7 @@ const Paint = (props) => {
   const chunksRef = useRef([]);
   const [videoURL, setVideoURL] = useState(null);
   const [imgString, setImgString] = useState(null);
+  const [isDrawn, setIsDrawn] = useState(true);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -252,6 +253,12 @@ const Paint = (props) => {
   const handleSeeSequence = () => {
     stopRecording();
   };
+
+  if(!isDrawn){
+    return <div>
+       <h2>You Havent Drawn Anything!!</h2>
+    </div>
+  }
 
   if (isDrawingDone) {
     return (
