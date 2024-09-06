@@ -17,6 +17,7 @@ const Paint = (props) => {
   const mediaRecorderRef = useRef(null);
   const chunksRef = useRef([]);
   const [videoURL, setVideoURL] = useState(null);
+  const [imgString, setImgString] = useState(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -104,12 +105,13 @@ const Paint = (props) => {
   const downloadImage = () => {
     const canvas = canvasRef.current;
     const image = canvas.toDataURL("image/png");
-    const base64Drawing = image.split(',')[1];
-    console.log(base64Drawing);
+    const base64Drawing = image.split(",")[1];
+    setImgString(base64Drawing);
     const link = document.createElement("a");
     link.href = image;
     link.download = "drawing.png";
     link.click();
+    return base64Drawing;
   };
 
   const startRecording = () => {
@@ -216,6 +218,7 @@ const Paint = (props) => {
   // };
 
   const stopRecording = async () => {
+    const imgUrlToSent = downloadImage();
     setRecording(false);
     setIsTimerActive(false);
     setIsDrawingDone(true);
@@ -233,14 +236,13 @@ const Paint = (props) => {
       const videoBlob = new Blob(chunksRef.current, {
         type: "video/webm; codecs=vp9",
       });
-      console.log(videoBlob);
       const fastForwardedVideoURL = await createFastForwardedVideo(videoBlob);
-
       // Set the fast-forwarded video URL for displaying
       setVideoURL(fastForwardedVideoURL);
 
       // Trigger download of the fast-forwarded video
       downloadFastForwardedVideo(fastForwardedVideoURL);
+      sendDataToReceiver(videoBlob, imgUrlToSent);
 
       // Clear recorded chunks
       chunksRef.current = [];
@@ -309,6 +311,18 @@ const Paint = (props) => {
     link.href = fastForwardedVideoURL;
     link.download = "fast_forwarded_drawing.webm";
     link.click();
+  };
+
+  const sendDataToReceiver = (videoBlob, imgUrlToSent) => {
+    const Data = {
+      type: "drawSomething",
+      DrData: {
+        img: imgUrlToSent,
+        vdo: videoBlob,
+        topic: props.selectedWord,
+      },
+    };
+    console.log("data Sent Is: ", Data);
   };
 
   const handleSeeSequence = () => {
