@@ -16,6 +16,7 @@ const Paint = (props) => {
   const [isDrawingDone, setIsDrawingDone] = useState(false);
   const mediaRecorderRef = useRef(null);
   const chunksRef = useRef([]);
+  const [videoURL, setVideoURL] = useState(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -134,6 +135,84 @@ const Paint = (props) => {
     setTimer(newTimer);
   };
 
+  // const stopRecording = async () => {
+  //   setRecording(false);
+  //   setIsTimerActive(false);
+  //   setIsDrawingDone(true);
+  //   setCountdown(40); // Reset the countdown
+
+  //   // Stop media recorder
+  //   if (mediaRecorderRef.current) {
+  //     mediaRecorderRef.current.stop();
+  //   }
+
+  //   // Disable drawing
+  //   setIsDrawing(false);
+
+  //   mediaRecorderRef.current.onstop = async () => {
+  //     const videoBlob = new Blob(chunksRef.current, { type: "video/webm" });
+  //     const fastForwardedVideoURL = await createFastForwardedVideo(videoBlob);
+  //     downloadFastForwardedVideo(fastForwardedVideoURL);
+
+  //     chunksRef.current = []; // Clear recorded chunks
+  //   };
+
+  //   // Clear timer
+  //   if (timer) {
+  //     clearInterval(timer);
+  //     setTimer(null);
+  //   }
+  // };
+
+  // // Create fast-forwarded video by manipulating playbackRate
+  // const createFastForwardedVideo = (videoBlob) => {
+  //   return new Promise((resolve) => {
+  //     const videoElement = document.createElement("video");
+  //     videoElement.src = URL.createObjectURL(videoBlob);
+
+  //     videoElement.onloadedmetadata = () => {
+  //       const offscreenCanvas = document.createElement("canvas");
+  //       const offscreenContext = offscreenCanvas.getContext("2d");
+  //       offscreenCanvas.width = videoElement.videoWidth;
+  //       offscreenCanvas.height = videoElement.videoHeight;
+
+  //       const stream = offscreenCanvas.captureStream(30); // Capture at 30fps
+  //       const fastForwardedRecorder = new MediaRecorder(stream);
+  //       const fastForwardedChunks = [];
+
+  //       fastForwardedRecorder.ondataavailable = (e) => {
+  //         fastForwardedChunks.push(e.data);
+  //       };
+
+  //       fastForwardedRecorder.onstop = () => {
+  //         const fastForwardedBlob = new Blob(fastForwardedChunks, {
+  //           type: "video/webm",
+  //         });
+  //         const fastForwardedVideoURL = URL.createObjectURL(fastForwardedBlob);
+  //         resolve(fastForwardedVideoURL);
+  //       };
+
+  //       // Start fast-forward recording
+  //       fastForwardedRecorder.start();
+
+  //       // Set playback speed to 5x and capture frames
+  //       videoElement.playbackRate = 5.0;
+  //       videoElement.play();
+  //       videoElement.onplay = () => {
+  //         const drawFrame = () => {
+  //           offscreenContext.drawImage(videoElement, 0, 0);
+  //           if (!videoElement.paused && !videoElement.ended) {
+  //             requestAnimationFrame(drawFrame);
+  //           } else {
+  //             fastForwardedRecorder.stop();
+  //           }
+  //         };
+  //         drawFrame();
+  //       };
+  //     };
+  //   });
+  // };
+
   const stopRecording = async () => {
     setRecording(false);
     setIsTimerActive(false);
@@ -149,11 +228,20 @@ const Paint = (props) => {
     setIsDrawing(false);
 
     mediaRecorderRef.current.onstop = async () => {
-      const videoBlob = new Blob(chunksRef.current, { type: "video/webm" });
+      const videoBlob = new Blob(chunksRef.current, {
+        type: "video/webm; codecs=vp9",
+      });
+      console.log(videoBlob);
       const fastForwardedVideoURL = await createFastForwardedVideo(videoBlob);
+
+      // Set the fast-forwarded video URL for displaying
+      setVideoURL(fastForwardedVideoURL);
+
+      // Trigger download of the fast-forwarded video
       downloadFastForwardedVideo(fastForwardedVideoURL);
 
-      chunksRef.current = []; // Clear recorded chunks
+      // Clear recorded chunks
+      chunksRef.current = [];
     };
 
     // Clear timer
@@ -163,7 +251,6 @@ const Paint = (props) => {
     }
   };
 
-  // Create fast-forwarded video by manipulating playbackRate
   const createFastForwardedVideo = (videoBlob) => {
     return new Promise((resolve) => {
       const videoElement = document.createElement("video");
@@ -176,7 +263,9 @@ const Paint = (props) => {
         offscreenCanvas.height = videoElement.videoHeight;
 
         const stream = offscreenCanvas.captureStream(30); // Capture at 30fps
-        const fastForwardedRecorder = new MediaRecorder(stream);
+        const fastForwardedRecorder = new MediaRecorder(stream, {
+          mimeType: "video/webm; codecs=vp9",
+        });
         const fastForwardedChunks = [];
 
         fastForwardedRecorder.ondataavailable = (e) => {
@@ -185,7 +274,7 @@ const Paint = (props) => {
 
         fastForwardedRecorder.onstop = () => {
           const fastForwardedBlob = new Blob(fastForwardedChunks, {
-            type: "video/webm",
+            type: "video/webm; codecs=vp9",
           });
           const fastForwardedVideoURL = URL.createObjectURL(fastForwardedBlob);
           resolve(fastForwardedVideoURL);
@@ -225,7 +314,28 @@ const Paint = (props) => {
   };
 
   if (isDrawingDone) {
-    return <h2>{props.selectedWord} drawn successfully!</h2>;
+    return (
+      <div>
+        <h2>{props.selectedWord} drawn successfully!</h2>
+        {videoURL ? (
+          <div>
+            <h3>Watch the drawing sequence:</h3>
+            <video
+              src={videoURL}
+              controls
+              autoPlay
+              loop
+              style={{ width: "100%", maxWidth: "600px" }}
+            />
+          </div>
+        ) : (
+          <>
+            <p>Loading video...</p>
+            <p>Please Wait</p>
+          </>
+        )}
+      </div>
+    );
   }
 
   return (
@@ -266,8 +376,12 @@ const Paint = (props) => {
         }}
       />
       <div>
-        <button className="btn_drawPage_G5h6" onClick={downloadImage}>Download Image</button>
-        <button className="btn_drawPage_G5h6" onClick={handleSeeSequence}>Submit</button>
+        <button className="btn_drawPage_G5h6" onClick={downloadImage}>
+          Download Image
+        </button>
+        <button className="btn_drawPage_G5h6" onClick={handleSeeSequence}>
+          Submit
+        </button>
       </div>
       {isTimerActive && <div>Time remaining: {countdown} seconds</div>}
     </div>
