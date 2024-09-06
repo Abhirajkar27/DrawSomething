@@ -235,7 +235,7 @@ const Paint = (props) => {
     console.log("url",fastForwardedVideoURL);
     const link = document.createElement("a");
     link.href = fastForwardedVideoURL;
-    link.download = "fast_forwarded_drawing.webm";
+    link.download = "YourDrawing.webm";
     link.click();
   };
 
