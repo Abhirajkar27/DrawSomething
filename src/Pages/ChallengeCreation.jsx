@@ -18,7 +18,7 @@ const Paint = (props) => {
   const chunksRef = useRef([]);
   const [videoURL, setVideoURL] = useState(null);
   const [imgString, setImgString] = useState(null);
-  const [isDrawn, setIsDrawn] = useState(true);
+  const [isDrawn, setIsDrawn] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -41,6 +41,8 @@ const Paint = (props) => {
   }, []);
 
   const startDrawing = (event) => {
+    console.log("hey drawing Started");
+    setIsDrawn(true);
     const nativeEvent = event.nativeEvent;
     const { offsetX, offsetY } =
       nativeEvent.type === "touchstart"
@@ -104,15 +106,19 @@ const Paint = (props) => {
   };
 
   const downloadImage = () => {
-    const canvas = canvasRef.current;
-    const image = canvas.toDataURL("image/png");
-    const base64Drawing = image.split(",")[1];
-    setImgString(base64Drawing);
-    const link = document.createElement("a");
-    link.href = image;
-    link.download = "drawing.png";
-    link.click();
-    return base64Drawing;
+    if (isDrawn) {
+      const canvas = canvasRef.current;
+      const image = canvas.toDataURL("image/png");
+      const base64Drawing = image.split(",")[1];
+      setImgString(base64Drawing);
+      const link = document.createElement("a");
+      link.href = image;
+      link.download = "drawing.png";
+      link.click();
+      return base64Drawing;
+    }else{
+     console.log("You Haven't Drawn Anything!!!");
+    }
   };
 
   const startRecording = () => {
@@ -140,8 +146,6 @@ const Paint = (props) => {
     setTimer(newTimer);
   };
 
- 
-
   const stopRecording = async () => {
     const imgUrlToSent = downloadImage();
     setRecording(false);
@@ -157,21 +161,23 @@ const Paint = (props) => {
     // Disable drawing
     setIsDrawing(false);
 
-    mediaRecorderRef.current.onstop = async () => {
-      const videoBlob = new Blob(chunksRef.current, {
-        type: "video/webm; codecs=vp9",
-      });
-      const fastForwardedVideoURL = await createFastForwardedVideo(videoBlob);
-      // Set the fast-forwarded video URL for displaying
-      setVideoURL(fastForwardedVideoURL);
+    if (isDrawn) {
+      mediaRecorderRef.current.onstop = async () => {
+        const videoBlob = new Blob(chunksRef.current, {
+          type: "video/webm; codecs=vp9",
+        });
+        const fastForwardedVideoURL = await createFastForwardedVideo(videoBlob);
+        // Set the fast-forwarded video URL for displaying
+        setVideoURL(fastForwardedVideoURL);
 
-      // Trigger download of the fast-forwarded video
-      downloadFastForwardedVideo(fastForwardedVideoURL);
-      sendDataToReceiver(videoBlob, imgUrlToSent);
+        // Trigger download of the fast-forwarded video
+        downloadFastForwardedVideo(fastForwardedVideoURL);
+        sendDataToReceiver(videoBlob, imgUrlToSent);
 
-      // Clear recorded chunks
-      chunksRef.current = [];
-    };
+        // Clear recorded chunks
+        chunksRef.current = [];
+      };
+    }
 
     // Clear timer
     if (timer) {
@@ -232,7 +238,7 @@ const Paint = (props) => {
 
   // Trigger download of the fast-forwarded video
   const downloadFastForwardedVideo = (fastForwardedVideoURL) => {
-    console.log("url",fastForwardedVideoURL);
+    console.log("url", fastForwardedVideoURL);
     const link = document.createElement("a");
     link.href = fastForwardedVideoURL;
     link.download = "YourDrawing.webm";
@@ -255,13 +261,15 @@ const Paint = (props) => {
     stopRecording();
   };
 
-  if(!isDrawn){
-    return (<div>
-       <h2>You Havent Drawn Anything!!</h2>
-    </div>)
-  }
-
   if (isDrawingDone) {
+    if (!isDrawn) {
+      return (
+        <div>
+          <h2>You Havent Drawn Anything!!</h2>
+        </div>
+      );
+    }
+
     return (
       <div>
         <h2>{props.selectedWord} drawn successfully!</h2>
