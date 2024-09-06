@@ -104,6 +104,8 @@ const Paint = (props) => {
   const downloadImage = () => {
     const canvas = canvasRef.current;
     const image = canvas.toDataURL("image/png");
+    const base64Drawing = image.split(',')[1];
+    console.log(base64Drawing);
     const link = document.createElement("a");
     link.href = image;
     link.download = "drawing.png";
