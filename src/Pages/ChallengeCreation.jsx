@@ -232,6 +232,7 @@ const Paint = (props) => {
 
   // Trigger download of the fast-forwarded video
   const downloadFastForwardedVideo = (fastForwardedVideoURL) => {
+    console.log("url",fastForwardedVideoURL);
     const link = document.createElement("a");
     link.href = fastForwardedVideoURL;
     link.download = "fast_forwarded_drawing.webm";
@@ -255,9 +256,9 @@ const Paint = (props) => {
   };
 
   if(!isDrawn){
-    return <div>
+    return (<div>
        <h2>You Havent Drawn Anything!!</h2>
-    </div>
+    </div>)
   }
 
   if (isDrawingDone) {
