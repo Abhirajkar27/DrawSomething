@@ -12,6 +12,8 @@ const Paint = (props) => {
     setImgString,
     isDrawn,
     setIsDrawn,
+    playTime,
+    setPlayTime,
   } = useContext(GameContext);
 
   const canvasRef = useRef(null);
@@ -24,6 +26,8 @@ const Paint = (props) => {
   const mediaRecorderRef = useRef(null);
   const chunksRef = useRef([]);
   const [isRecordingPaused, setIsRecordingPaused] = useState(false);
+  const drawStartTimeRef = useRef(0); // To track when drawing starts
+  const totalDrawTimeRef = useRef(0); // To accumulate total drawing time
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -58,6 +62,7 @@ const Paint = (props) => {
     contextRef.current.beginPath();
     contextRef.current.moveTo(offsetX, offsetY);
     setIsDrawing(true);
+    drawStartTimeRef.current = Date.now();
 
     // Resume recording if it was paused
     if (
@@ -84,6 +89,13 @@ const Paint = (props) => {
   const finishDrawing = () => {
     contextRef.current.closePath();
     setIsDrawing(false);
+
+
+    if (drawStartTimeRef.current) {
+      const drawTime = Date.now() - drawStartTimeRef.current;
+      totalDrawTimeRef.current += drawTime;
+      setPlayTime(totalDrawTimeRef.current / 1000); // Set playTime in seconds
+    }
 
     // Pause the recording when drawing stops
     if (
@@ -124,7 +136,6 @@ const Paint = (props) => {
   };
 
   const downloadImage = () => {
-    console.log("checking Is Drawn for DownloadingImg", isDrawn);
     if (isDrawn === true) {
       const canvas = canvasRef.current;
       const image = canvas.toDataURL("image/png");
@@ -163,7 +174,6 @@ const Paint = (props) => {
 
     // Disable drawing
     setIsDrawing(false);
-    console.log("checking Is Drawn for Vdo Creation", isDrawn);
     if (isDrawn === true) {
       mediaRecorderRef.current.onstop = async () => {
         const videoBlob = new Blob(chunksRef.current, {
@@ -212,19 +222,18 @@ const Paint = (props) => {
           resolve(fastForwardedVideoURL);
         };
 
-
         let playbackRate = 1.0;
-        console.log("finding duration", videoElement);
-        if (videoElement.duration > 30) {
+        console.log("finding duration", playTime);
+        if (playTime > 30) {
           playbackRate = 5.0;
-        } else if (videoElement.duration > 20) {
+        } else if (playTime > 20) {
           playbackRate = 3.0;
-        } else if (videoElement.duration > 10) {
+        } else if (playTime > 10) {
           playbackRate = 2.0;
-        } 
+        }
 
-         // Start fast-forward recording
-         fastForwardedRecorder.start();
+        // Start fast-forward recording
+        fastForwardedRecorder.start();
 
         // Set playback speed to 5x and capture frames
         videoElement.playbackRate = playbackRate;

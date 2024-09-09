@@ -6,6 +6,7 @@ const GameProvider = ({ children }) => {
   const [videoURL, setVideoURL] = useState(null);
   const [imgString, setImgString] = useState(null);
   const [isDrawn, setIsDrawn] = useState(false);
+  const [playTime,setPlayTime] = useState(0);
 
   useEffect(()=>{
     console.log("IsDrawn Changed:", isDrawn);
@@ -20,6 +21,8 @@ const GameProvider = ({ children }) => {
         setImgString,
         isDrawn,
         setIsDrawn,
+        playTime,
+        setPlayTime,
       }}
     >
       {children}
