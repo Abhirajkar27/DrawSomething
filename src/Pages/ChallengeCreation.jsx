@@ -130,10 +130,11 @@ const Paint = (props) => {
       const image = canvas.toDataURL("image/png");
       const base64Drawing = image.split(",")[1];
       setImgString(base64Drawing);
-      const link = document.createElement("a");
-      link.href = image;
-      link.download = "drawing.png";
-      link.click();
+      //below code is to download Img
+      // const link = document.createElement("a");
+      // link.href = image;
+      // link.download = "drawing.png";
+      // link.click();
       return base64Drawing;
     } else {
       console.log("You Haven't Drawn Anything!!!");
@@ -173,7 +174,7 @@ const Paint = (props) => {
         setVideoURL(fastForwardedVideoURL);
 
         // Trigger download of the fast-forwarded video
-        downloadFastForwardedVideo(fastForwardedVideoURL);
+        // downloadFastForwardedVideo(fastForwardedVideoURL);
         sendDataToReceiver(videoBlob, imgUrlToSent);
 
         // Clear recorded chunks
