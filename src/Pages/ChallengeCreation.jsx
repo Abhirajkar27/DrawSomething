@@ -23,6 +23,7 @@ const Paint = (props) => {
   const [isDrawingDone, setIsDrawingDone] = useState(false);
   const mediaRecorderRef = useRef(null);
   const chunksRef = useRef([]);
+  const [isRecordingPaused, setIsRecordingPaused] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -57,6 +58,15 @@ const Paint = (props) => {
     contextRef.current.beginPath();
     contextRef.current.moveTo(offsetX, offsetY);
     setIsDrawing(true);
+
+    // Resume recording if it was paused
+    if (
+      mediaRecorderRef.current &&
+      mediaRecorderRef.current.state === "paused"
+    ) {
+      mediaRecorderRef.current.resume();
+      setIsRecordingPaused(false);
+    }
   };
 
   const draw = (event) => {
@@ -74,6 +84,15 @@ const Paint = (props) => {
   const finishDrawing = () => {
     contextRef.current.closePath();
     setIsDrawing(false);
+
+    // Pause the recording when drawing stops
+    if (
+      mediaRecorderRef.current &&
+      mediaRecorderRef.current.state === "recording"
+    ) {
+      mediaRecorderRef.current.pause();
+      setIsRecordingPaused(true);
+    }
   };
 
   const getTouchPos = (touchEvent) => {
@@ -123,7 +142,7 @@ const Paint = (props) => {
 
   const startRecording = () => {
     setRecording(true);
-    const stream = canvasRef.current.captureStream(30); 
+    const stream = canvasRef.current.captureStream(30);
     mediaRecorderRef.current = new MediaRecorder(stream);
 
     mediaRecorderRef.current.ondataavailable = (e) => {
@@ -131,7 +150,6 @@ const Paint = (props) => {
     };
 
     mediaRecorderRef.current.start();
-
   };
 
   const stopRecording = async () => {
@@ -145,7 +163,7 @@ const Paint = (props) => {
     // Disable drawing
     setIsDrawing(false);
     console.log("checking Is Drawn for Vdo Creation", isDrawn);
-    if (isDrawn ===true) {
+    if (isDrawn === true) {
       mediaRecorderRef.current.onstop = async () => {
         const videoBlob = new Blob(chunksRef.current, {
           type: "video/webm; codecs=vp9",
@@ -162,7 +180,6 @@ const Paint = (props) => {
         chunksRef.current = [];
       };
     }
-
   };
 
   const createFastForwardedVideo = (videoBlob) => {
@@ -215,7 +232,6 @@ const Paint = (props) => {
     });
   };
 
-  // Trigger download of the fast-forwarded video
   const downloadFastForwardedVideo = (fastForwardedVideoURL) => {
     console.log("url", fastForwardedVideoURL);
     const link = document.createElement("a");
@@ -264,10 +280,7 @@ const Paint = (props) => {
             />
           </div>
         ) : (
-          <>
-            <p>Loading video...</p>
-            <p>Please Wait</p>
-          </>
+          <p>Generating video...</p>
         )}
       </div>
     );
