@@ -212,11 +212,22 @@ const Paint = (props) => {
           resolve(fastForwardedVideoURL);
         };
 
-        // Start fast-forward recording
-        fastForwardedRecorder.start();
+
+        let playbackRate = 1.0;
+        console.log("finding duration", videoElement);
+        if (videoElement.duration > 30) {
+          playbackRate = 5.0;
+        } else if (videoElement.duration > 20) {
+          playbackRate = 3.0;
+        } else if (videoElement.duration > 10) {
+          playbackRate = 2.0;
+        } 
+
+         // Start fast-forward recording
+         fastForwardedRecorder.start();
 
         // Set playback speed to 5x and capture frames
-        videoElement.playbackRate = 5.0;
+        videoElement.playbackRate = playbackRate;
         videoElement.play();
         videoElement.onplay = () => {
           const drawFrame = () => {
