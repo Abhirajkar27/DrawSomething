@@ -1,24 +1,28 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaintBrush, faEraser } from "@fortawesome/free-solid-svg-icons";
 import "./ChallengeCreation.css";
+import { GameContext } from "../context/context";
 
 const Paint = (props) => {
+  const {
+    videoURL,
+    setVideoURL,
+    imgString,
+    setImgString,
+    isDrawn,
+    setIsDrawn,
+  } = useContext(GameContext);
+
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [color, setColor] = useState("black");
   const [lineWidth, setLineWidth] = useState(5);
   const [recording, setRecording] = useState(false);
-  const [timer, setTimer] = useState(null);
-  const [countdown, setCountdown] = useState(40);
-  const [isTimerActive, setIsTimerActive] = useState(false);
   const [isDrawingDone, setIsDrawingDone] = useState(false);
   const mediaRecorderRef = useRef(null);
   const chunksRef = useRef([]);
-  const [videoURL, setVideoURL] = useState(null);
-  const [imgString, setImgString] = useState(null);
-  const [isDrawn, setIsDrawn] = useState();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -60,7 +64,6 @@ const Paint = (props) => {
 
     const nativeEvent = event.nativeEvent;
 
-    // For touch events, we need to calculate the touch positions
     const { offsetX, offsetY } =
       nativeEvent.type === "touchmove" ? getTouchPos(nativeEvent) : nativeEvent;
 
@@ -73,7 +76,6 @@ const Paint = (props) => {
     setIsDrawing(false);
   };
 
-  // Utility function to get touch position relative to the canvas
   const getTouchPos = (touchEvent) => {
     const touch = touchEvent.touches[0];
     const canvas = canvasRef.current;
@@ -98,14 +100,13 @@ const Paint = (props) => {
   const clearCanvas = () => {
     const canvas = canvasRef.current;
     contextRef.current.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Redraw the white background
     contextRef.current.fillStyle = "white";
     contextRef.current.fillRect(0, 0, canvas.width, canvas.height);
   };
 
   const downloadImage = () => {
-    if (isDrawn!=false) {
+    console.log("checking Is Drawn for DownloadingImg", isDrawn);
+    if (isDrawn === true) {
       const canvas = canvasRef.current;
       const image = canvas.toDataURL("image/png");
       const base64Drawing = image.split(",")[1];
@@ -115,14 +116,14 @@ const Paint = (props) => {
       link.download = "drawing.png";
       link.click();
       return base64Drawing;
-    }else{
-     console.log("You Haven't Drawn Anything!!!");
+    } else {
+      console.log("You Haven't Drawn Anything!!!");
     }
   };
 
   const startRecording = () => {
     setRecording(true);
-    const stream = canvasRef.current.captureStream(30); // Capture at 30fps
+    const stream = canvasRef.current.captureStream(30); 
     mediaRecorderRef.current = new MediaRecorder(stream);
 
     mediaRecorderRef.current.ondataavailable = (e) => {
@@ -131,36 +132,20 @@ const Paint = (props) => {
 
     mediaRecorderRef.current.start();
 
-    // Start 40-second countdown
-    setIsTimerActive(true);
-    const newTimer = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev === 1) {
-          clearInterval(newTimer);
-          stopRecording(); // Stop recording and restrict drawing
-        }
-        return prev - 1;
-      });
-    }, 1000);
-    setTimer(newTimer);
   };
 
   const stopRecording = async () => {
     const imgUrlToSent = downloadImage();
     setRecording(false);
-    setIsTimerActive(false);
     setIsDrawingDone(true);
-    setCountdown(40); // Reset the countdown
-
-    // Stop media recorder
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
     }
 
     // Disable drawing
     setIsDrawing(false);
-
-    if (isDrawn!=false) {
+    console.log("checking Is Drawn for Vdo Creation", isDrawn);
+    if (isDrawn ===true) {
       mediaRecorderRef.current.onstop = async () => {
         const videoBlob = new Blob(chunksRef.current, {
           type: "video/webm; codecs=vp9",
@@ -178,11 +163,6 @@ const Paint = (props) => {
       };
     }
 
-    // Clear timer
-    if (timer) {
-      clearInterval(timer);
-      setTimer(null);
-    }
   };
 
   const createFastForwardedVideo = (videoBlob) => {
@@ -338,7 +318,7 @@ const Paint = (props) => {
           Submit
         </button>
       </div>
-      {isTimerActive && <div>Time remaining: {countdown} seconds</div>}
+      <div>Draw and send for Challenge</div>
     </div>
   );
 };
