@@ -270,8 +270,26 @@ const Paint = (props) => {
         topic: props.selectedWord,
       },
     };
-    console.log("data Sent Is: ", Data);
+  
+    // Perform POST request
+    fetch('http://localhost:5000/data', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json', // Sending JSON data
+      },
+      body: JSON.stringify(Data), // Convert Data object to JSON
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Data Sent Successfully:', data);
+    })
+    .catch(error => {
+      console.error('Error sending data:', error);
+    });
+    
+    console.log("Data Sent Is: ", Data);
   };
+  
 
   const handleSeeSequence = () => {
     stopRecording();
