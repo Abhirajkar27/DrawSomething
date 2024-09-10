@@ -7,10 +7,13 @@ const GameProvider = ({ children }) => {
   const [imgString, setImgString] = useState(null);
   const [isDrawn, setIsDrawn] = useState(false);
   const [playTime,setPlayTime] = useState(0);
+  const [isChallenge, setIsChallenge] = useState(false);
+  const [selectedWord, setSelectedWord] = useState("");
+  const words = ["Apple", "Tree", "House", "Car", "Dog", "Cat", "Mountain", "River", "Sun", "Moon"];
 
-  useEffect(()=>{
-    console.log("IsDrawn Changed:", isDrawn);
-  },[isDrawn])
+  // useEffect(()=>{
+  //   console.log("IsDrawn Changed:", isDrawn);
+  // },[isDrawn])
 
   return (
     <GameContext.Provider
@@ -23,6 +26,11 @@ const GameProvider = ({ children }) => {
         setIsDrawn,
         playTime,
         setPlayTime,
+        selectedWord,
+        setSelectedWord,
+        isChallenge, 
+        setIsChallenge,
+        words,
       }}
     >
       {children}
