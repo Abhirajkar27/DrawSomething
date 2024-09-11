@@ -291,94 +291,7 @@ const Paint = (props) => {
   };
   
 
-  // const stopRecording = async () => {
-  //   const imgUrlToSent = downloadImage();
-  //   setRecording(false);
-  //   setIsDrawingDone(true);
-  //   if (mediaRecorderRef.current) {
-  //     mediaRecorderRef.current.stop();
-  //   }
-
-  //   // Disable drawing
-  //   setIsDrawing(false);
-  //   if (isDrawn === true) {
-  //     mediaRecorderRef.current.onstop = async () => {
-  //       const videoBlob = new Blob(chunksRef.current, {
-  //         type: "video/webm; codecs=vp9",
-  //       });
-  //       const fastForwardedVideoURL = await createFastForwardedVideo(videoBlob);
-  //       // Set the fast-forwarded video URL for displaying
-  //       setVideoURL(fastForwardedVideoURL);
-
-  //       // Trigger download of the fast-forwarded video
-  //       // downloadFastForwardedVideo(fastForwardedVideoURL);
-  //       sendDataToReceiver(videoBlob, imgUrlToSent);
-
-  //       // Clear recorded chunks
-  //       chunksRef.current = [];
-  //     };
-  //   }
-  // };
-
-  // const createFastForwardedVideo = (videoBlob) => {
-  //   return new Promise((resolve) => {
-  //     const videoElement = document.createElement("video");
-  //     videoElement.src = URL.createObjectURL(videoBlob);
-
-  //     videoElement.onloadedmetadata = () => {
-  //       const offscreenCanvas = document.createElement("canvas");
-  //       const offscreenContext = offscreenCanvas.getContext("2d");
-  //       offscreenCanvas.width = videoElement.videoWidth;
-  //       offscreenCanvas.height = videoElement.videoHeight;
-
-  //       const stream = offscreenCanvas.captureStream(30); // Capture at 30fps
-  //       const fastForwardedRecorder = new MediaRecorder(stream, {
-  //         mimeType: "video/webm; codecs=vp9",
-  //       });
-  //       const fastForwardedChunks = [];
-
-  //       fastForwardedRecorder.ondataavailable = (e) => {
-  //         fastForwardedChunks.push(e.data);
-  //       };
-
-  //       fastForwardedRecorder.onstop = () => {
-  //         const fastForwardedBlob = new Blob(fastForwardedChunks, {
-  //           type: "video/webm; codecs=vp9",
-  //         });
-  //         const fastForwardedVideoURL = URL.createObjectURL(fastForwardedBlob);
-  //         resolve(fastForwardedVideoURL);
-  //       };
-
-  //       let playbackRate = 1.0;
-  //       console.log("finding duration", playTime);
-  //       if (playTime > 30) {
-  //         playbackRate = 5.0;
-  //       } else if (playTime > 20) {
-  //         playbackRate = 3.0;
-  //       } else if (playTime > 10) {
-  //         playbackRate = 2.0;
-  //       }
-
-  //       // Start fast-forward recording
-  //       fastForwardedRecorder.start();
-
-  //       // Set playback speed to 5x and capture frames
-  //       videoElement.playbackRate = playbackRate;
-  //       videoElement.play();
-  //       videoElement.onplay = () => {
-  //         const drawFrame = () => {
-  //           offscreenContext.drawImage(videoElement, 0, 0);
-  //           if (!videoElement.paused && !videoElement.ended) {
-  //             requestAnimationFrame(drawFrame);
-  //           } else {
-  //             fastForwardedRecorder.stop();
-  //           }
-  //         };
-  //         drawFrame();
-  //       };
-  //     };
-  //   });
-  // };
+  
 
   const downloadFastForwardedVideo = (fastForwardedVideoURL) => {
     console.log("url", fastForwardedVideoURL);
@@ -387,34 +300,6 @@ const Paint = (props) => {
     link.download = "YourDrawing.webm";
     link.click();
   };
-
-  // const sendDataToReceiver = (videoBlob, imgUrlToSent) => {
-  //   const Data = {
-  //     type: "drawSomething",
-  //     DrData: {
-  //       img: imgUrlToSent,
-  //       vdo: videoBlob,
-  //       topic: props.selectedWord,
-  //     },
-  //   };
-  
-  //   // Perform POST request
-  //   fetch('http://localhost:5000/data', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json', // Sending JSON data
-  //     },
-  //     body: JSON.stringify(Data), // Convert Data object to JSON
-  //   })
-  //   .then(response => response.json())
-  //   .then(data => {
-  //     console.log('Data Sent Successfully:', data);
-  //   })
-  //   .catch(error => {
-  //     console.error('Error sending data:', error);
-  //   });
-  //   console.log("Data Sent Is: ", Data);
-  // };
   
 
   const handleSeeSequence = () => {
