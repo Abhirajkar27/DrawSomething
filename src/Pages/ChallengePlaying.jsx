@@ -5,9 +5,9 @@ const ChallengePlaying = () => {
   const { imgString, challengeTopic, words, videoURL } = useContext(GameContext);
   const [selectedWord, setSelectedWord] = useState("");
   const [isWinner, setIsWinner] = useState(false);
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false); // New state for video play
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false); 
   const videoRef = useRef(null);
-  const [videoBlobURL, setVideoBlobURL] = useState(""); // State to store blob URL
+  const [videoBlobURL, setVideoBlobURL] = useState(""); 
 
   // Decode base64 image
   const imageSrc = `data:image/jpeg;base64,${imgString}`;
@@ -19,7 +19,7 @@ const ChallengePlaying = () => {
         const base64Data = videoURL.split(",")[1];
 
         // Convert base64 to Blob and create an object URL
-        const blob = base64ToBlob(base64Data, "video/webm"); // Replace "video/webm" with the correct MIME type of your video
+        const blob = base64ToBlob(base64Data, "video/webm"); 
         const url = URL.createObjectURL(blob);
         setVideoBlobURL(url);
 
@@ -61,7 +61,7 @@ const ChallengePlaying = () => {
   const handleVideoPlay = () => {
     if (videoRef.current) {
       videoRef.current.play();
-      setIsVideoPlaying(true); // Set state to hide play button
+      setIsVideoPlaying(true); 
     }
   };
 
@@ -72,7 +72,7 @@ const ChallengePlaying = () => {
 
       {/* Video Section */}
       <div style={styles.videoContainer}>
-        {videoBlobURL && ( // Check if the video URL is ready
+        {videoBlobURL && (
           <video
             ref={videoRef}
             src={videoBlobURL}

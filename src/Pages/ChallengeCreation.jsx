@@ -90,7 +90,6 @@ const Paint = (props) => {
     contextRef.current.closePath();
     setIsDrawing(false);
 
-
     if (drawStartTimeRef.current) {
       const drawTime = Date.now() - drawStartTimeRef.current;
       totalDrawTimeRef.current += drawTime;
@@ -163,64 +162,164 @@ const Paint = (props) => {
 
     mediaRecorderRef.current.start();
   };
+
   const stopRecording = async () => {
     const imgUrlToSent = downloadImage();
     setRecording(false);
     setIsDrawingDone(true);
+
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
     }
-  
+
     // Disable drawing
     setIsDrawing(false);
+
     if (isDrawn === true) {
       mediaRecorderRef.current.onstop = async () => {
         const videoBlob = new Blob(chunksRef.current, {
           type: "video/webm; codecs=vp9",
         });
-        const fastForwardedVideoBase64 = await createFastForwardedVideo(videoBlob);
-        // Set the fast-forwarded video URL for displaying
-        setVideoURL(fastForwardedVideoBase64);
-  
-        // Trigger download of the fast-forwarded video
-        // downloadFastForwardedVideo(fastForwardedVideoURL);
-        sendDataToReceiver(fastForwardedVideoBase64, imgUrlToSent);
-  
-        // Clear recorded chunks
+
+        const fastForwardedVideoBase64 = await createFastForwardedVideo(
+          videoBlob
+        );
         chunksRef.current = [];
+
+        // Now chunk the video and send it
+        sendChunkedDataToReceiver(fastForwardedVideoBase64, imgUrlToSent);
       };
     }
   };
-  
+
+  const CHUNK_SIZE = 50000; 
+
+  const sendChunkedDataToReceiver = async (videoBase64, imgUrlToSent) => {
+    const Data = {
+      type: "drawSomething",
+      DrData: {
+        img: imgUrlToSent,
+        vdo: videoBase64,
+        topic: props.selectedWord,
+      },
+    };
+
+    const jsonData = JSON.stringify(Data);
+
+    const totalChunks = Math.ceil(jsonData.length / CHUNK_SIZE);
+    console.log("Total Chunks", totalChunks, jsonData.length, CHUNK_SIZE);
+    let currentChunk = 0;
+
+    const sendChunk = async () => {
+      const start = currentChunk * CHUNK_SIZE;
+      const end = Math.min(start + CHUNK_SIZE, jsonData.length);
+      const chunk = jsonData.slice(start, end);
+
+      const chunkPayload = {
+        fileIdentity: props.selectedWord,
+        chunkData: chunk,
+        chunkNumber: currentChunk + 1,
+        totalChunks: totalChunks,
+      };
+
+      await fetch("http://localhost:5000/data", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(chunkPayload),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(`Chunk ${currentChunk + 1} sent successfully:`, data);
+          currentChunk++;
+          if (currentChunk < totalChunks) {
+            sendChunk(); // Continue with the next chunk
+          } else {
+            console.log("All chunks sent successfully!");
+          }
+        })
+        .catch((error) => {
+          console.error("Error sending chunk:", error);
+        });
+    };
+
+    // Start sending the first chunk
+    sendChunk();
+  };
+
+  // Utility function to convert a Blob to Base64
+  const convertBlobToBase64 = (blob) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  };
+
+  // const stopRecording = async () => {
+  //   const imgUrlToSent = downloadImage();
+  //   setRecording(false);
+  //   setIsDrawingDone(true);
+  //   if (mediaRecorderRef.current) {
+  //     mediaRecorderRef.current.stop();
+  //   }
+
+  //   // Disable drawing
+  //   setIsDrawing(false);
+  //   if (isDrawn === true) {
+  //     mediaRecorderRef.current.onstop = async () => {
+  //       const videoBlob = new Blob(chunksRef.current, {
+  //         type: "video/webm; codecs=vp9",
+  //       });
+  //       const fastForwardedVideoBase64 = await createFastForwardedVideo(
+  //         videoBlob
+  //       );
+  //       // Set the fast-forwarded video URL for displaying
+  //       setVideoURL(fastForwardedVideoBase64);
+
+  //       // Trigger download of the fast-forwarded video
+  //       // downloadFastForwardedVideo(fastForwardedVideoURL);
+  //       sendDataToReceiver(fastForwardedVideoBase64, imgUrlToSent);
+
+  //       // Clear recorded chunks
+  //       chunksRef.current = [];
+  //     };
+  //   }
+  // };
+
   const createFastForwardedVideo = (videoBlob) => {
     return new Promise((resolve) => {
       const videoElement = document.createElement("video");
       videoElement.src = URL.createObjectURL(videoBlob);
-  
+
       videoElement.onloadedmetadata = () => {
         const offscreenCanvas = document.createElement("canvas");
         const offscreenContext = offscreenCanvas.getContext("2d");
         offscreenCanvas.width = videoElement.videoWidth;
         offscreenCanvas.height = videoElement.videoHeight;
-  
+
         const stream = offscreenCanvas.captureStream(30); // Capture at 30fps
         const fastForwardedRecorder = new MediaRecorder(stream, {
           mimeType: "video/webm; codecs=vp9",
         });
         const fastForwardedChunks = [];
-  
+
         fastForwardedRecorder.ondataavailable = (e) => {
           fastForwardedChunks.push(e.data);
         };
-  
+
         fastForwardedRecorder.onstop = async () => {
           const fastForwardedBlob = new Blob(fastForwardedChunks, {
             type: "video/webm; codecs=vp9",
           });
-          const fastForwardedBase64 = await convertBlobToBase64(fastForwardedBlob);
+          const fastForwardedBase64 = await convertBlobToBase64(
+            fastForwardedBlob
+          );
           resolve(fastForwardedBase64);
         };
-  
+
         let playbackRate = 1.0;
         console.log("finding duration", playTime);
         if (playTime > 30) {
@@ -230,10 +329,10 @@ const Paint = (props) => {
         } else if (playTime > 10) {
           playbackRate = 2.0;
         }
-  
+
         // Start fast-forward recording
         fastForwardedRecorder.start();
-  
+
         // Set playback speed to 5x and capture frames
         videoElement.playbackRate = playbackRate;
         videoElement.play();
@@ -251,17 +350,17 @@ const Paint = (props) => {
       };
     });
   };
-  
+
   // Utility function to convert a Blob to Base64
-  const convertBlobToBase64 = (blob) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result);
-      reader.onerror = reject;
-      reader.readAsDataURL(blob);
-    });
-  };
-  
+  // const convertBlobToBase64 = (blob) => {
+  //   return new Promise((resolve, reject) => {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => resolve(reader.result);
+  //     reader.onerror = reject;
+  //     reader.readAsDataURL(blob);
+  //   });
+  // };
+
   const sendDataToReceiver = (videoBase64, imgUrlToSent) => {
     const Data = {
       type: "drawSomething",
@@ -271,7 +370,7 @@ const Paint = (props) => {
         topic: props.selectedWord,
       },
     };
-  
+
     // Perform POST request
     fetch("http://localhost:5000/data", {
       method: "POST",
@@ -289,9 +388,6 @@ const Paint = (props) => {
       });
     console.log("Data Sent Is: ", Data);
   };
-  
-
-  
 
   const downloadFastForwardedVideo = (fastForwardedVideoURL) => {
     console.log("url", fastForwardedVideoURL);
@@ -300,7 +396,6 @@ const Paint = (props) => {
     link.download = "YourDrawing.webm";
     link.click();
   };
-  
 
   const handleSeeSequence = () => {
     stopRecording();
