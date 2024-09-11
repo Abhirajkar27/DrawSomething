@@ -184,6 +184,7 @@ const Paint = (props) => {
         const fastForwardedVideoBase64 = await createFastForwardedVideo(
           videoBlob
         );
+        setVideoURL(fastForwardedVideoBase64);
         chunksRef.current = [];
 
         // Now chunk the video and send it
@@ -192,7 +193,7 @@ const Paint = (props) => {
     }
   };
 
-  const CHUNK_SIZE = 50000; 
+  const CHUNK_SIZE = 50000;
 
   const sendChunkedDataToReceiver = async (videoBase64, imgUrlToSent) => {
     const Data = {
@@ -204,7 +205,12 @@ const Paint = (props) => {
       },
     };
 
+    // const jsonData = JSON.stringify(Data);
     const jsonData = JSON.stringify(Data);
+    const sizeInBytes = new TextEncoder().encode(jsonData).length; // Get size in bytes
+    const sizeInMB = sizeInBytes / (1024 * 1024); // Convert bytes to MB
+
+    console.log(`Size of jsonData: ${sizeInMB} MB`);
 
     const totalChunks = Math.ceil(jsonData.length / CHUNK_SIZE);
     console.log("Total Chunks", totalChunks, jsonData.length, CHUNK_SIZE);
