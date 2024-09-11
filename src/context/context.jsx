@@ -7,7 +7,7 @@ const GameProvider = ({ children }) => {
   const [imgString, setImgString] = useState(null);
   const [isDrawn, setIsDrawn] = useState(false);
   const [playTime,setPlayTime] = useState(0);
-  const [isChallenge, setIsChallenge] = useState(true);
+  const [isChallenge, setIsChallenge] = useState(false);
   const [selectedWord, setSelectedWord] = useState("");
   const [challengeTopic, setChallengeTopic] = useState();
   const words = ["Apple", "Tree", "House", "Car", "Dog", "Cat", "Mountain", "River", "Sun", "Moon"];
