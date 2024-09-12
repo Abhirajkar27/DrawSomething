@@ -14,12 +14,12 @@ const GameProvider = ({ children }) => {
 
   useEffect(() => {
     if (isChallenge) {
-      const id = "347539ea-0189-4751-a9d0-f426e996d5d7";
+      const id = "0b0058fa-b80f-4ca0-b331-516c3e95be08";
       fetch(`http://localhost:5000/data/${id}`)
         .then(response => response.json())
         .then(data => {
-          console.log('Fetched data:', JSON.parse(data.data).DrData);
-          const reqJSON = JSON.parse(data.data).DrData;
+          console.log('Fetched data:', data.data);
+          const reqJSON = data.data;
           
           setChallengeTopic(reqJSON.topic);   // Set the challenge topic
           setImgString(reqJSON.img);          // Set the base64 image string

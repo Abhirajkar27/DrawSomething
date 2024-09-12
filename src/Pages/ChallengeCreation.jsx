@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaintBrush, faEraser } from "@fortawesome/free-solid-svg-icons";
 import "./ChallengeCreation.css";
 import { GameContext } from "../context/context";
+import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
 
 const Paint = (props) => {
   const {
@@ -165,6 +167,7 @@ const Paint = (props) => {
 
   const stopRecording = async () => {
     const imgUrlToSent = downloadImage();
+    console.log("imageBase64", imgUrlToSent);
     setRecording(false);
     setIsDrawingDone(true);
 
@@ -184,74 +187,140 @@ const Paint = (props) => {
         const fastForwardedVideoBase64 = await createFastForwardedVideo(
           videoBlob
         );
-        setVideoURL(fastForwardedVideoBase64);
         chunksRef.current = [];
 
-        // Now chunk the video and send it
-        sendChunkedDataToReceiver(fastForwardedVideoBase64, imgUrlToSent);
+        setVideoURL(fastForwardedVideoBase64);
+
+        // Generate a unique file identity for video and image
+        const videoFileIdentity = uuidv4() + ".webm";
+        const imageFileIdentity = uuidv4() + ".png";
+
+        // Upload video and image separately in chunks
+        const videoS3Link = await uploadFileInChunks(
+          fastForwardedVideoBase64,
+          "video/webm",
+          videoFileIdentity
+        );
+        const imageS3Link = await uploadFileInChunks(
+          imgUrlToSent,
+          "image/png",
+          imageFileIdentity
+        );
+
+        console.log("isReturning", videoS3Link, imageS3Link);
+
+        await sendDataToLocalAPI(videoS3Link, imageS3Link);
       };
     }
   };
 
-  const CHUNK_SIZE = 50000;
+  const uploadFileInChunks = async (fileBase64, mimeType, fileIdentity) => {
+    const chunkSize = 5 * 1024 * 1024; // 5MB chunk size
+    const totalChunks = Math.ceil(fileBase64.length / chunkSize);
+    let currentChunk = 0;
 
-  const sendChunkedDataToReceiver = async (videoBase64, imgUrlToSent) => {
+    const uploadIdRef = { current: null };
+
+    const reader = new FileReader();
+
+    const uploadChunk = async (chunkData, chunkNumber, totalChunkNumber) => {
+      const payload = {
+        fileIdentity,
+        chunkNumber: chunkNumber + 1,
+        totalChunkNumber,
+        chunk: chunkData,
+        mimeType,
+      };
+
+
+      if (chunkNumber + 1 !== 1) {
+        payload["uploadId"] = uploadIdRef.current;
+      }
+
+      const result = await axios.post(
+        "https://vyld-cb-dev-api.vyld.io/api/v1/media/upload/chunk",
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": process.env.REACT_APP_KEY,
+            "x-client-id": process.env.REACT_APP_CLIENTID,
+          },
+        }
+      );
+
+      console.log("file Uploaded Success", result);
+
+      if (result.data?.data.status === "UPLOADED") {
+        console.log("s3 link is", result.data.data.url);
+        return result.data.data.url; // Return S3 link when fully uploaded
+      }
+
+      if (result.data?.data.status !== "UPLOADED") {
+        uploadIdRef.current = result.data?.data?.uploadId;
+      }
+    };
+
+    const sendChunk = async (start, end) => {
+      const chunk = fileBase64.slice(start, end);
+      console.log("chunked data is", chunk);
+
+      // Wrap FileReader in a Promise
+      const readFileAsDataURL = (fileChunk) => {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = (event) => resolve(event.target.result.split(",")[1]); // Extract base64 data
+          reader.onerror = (error) => reject(error);
+          reader.readAsDataURL(new Blob([fileChunk])); // Convert chunk to base64 for upload
+        });
+      };
+
+      try {
+        const chunkData = await readFileAsDataURL(chunk); // Wait for the FileReader to complete
+        // console.log("after File Reader", chunkData);
+        const s3Link = await uploadChunk(chunk, currentChunk, totalChunks);
+        currentChunk++;
+
+        if (currentChunk < totalChunks) {
+          const nextStart = currentChunk * chunkSize;
+          const nextEnd = Math.min(nextStart + chunkSize, fileBase64.length);
+          return sendChunk(nextStart, nextEnd); // Upload next chunk
+        }
+        return s3Link; // All chunks uploaded, return the final S3 link
+      } catch (error) {
+        console.error("Error reading file chunk:", error);
+      }
+    };
+
+    // Start uploading the first chunk
+    return await sendChunk(0, chunkSize);
+  };
+
+  // Function to send S3 links and other data to local API
+  const sendDataToLocalAPI = async (videoS3Link, imgS3Link) => {
     const Data = {
       type: "drawSomething",
       DrData: {
-        img: imgUrlToSent,
-        vdo: videoBase64,
+        img: imgS3Link,
+        vdo: videoS3Link,
         topic: props.selectedWord,
       },
     };
 
-    // const jsonData = JSON.stringify(Data);
-    const jsonData = JSON.stringify(Data);
-    const sizeInBytes = new TextEncoder().encode(jsonData).length; // Get size in bytes
-    const sizeInMB = sizeInBytes / (1024 * 1024); // Convert bytes to MB
-
-    console.log(`Size of jsonData: ${sizeInMB} MB`);
-
-    const totalChunks = Math.ceil(jsonData.length / CHUNK_SIZE);
-    console.log("Total Chunks", totalChunks, jsonData.length, CHUNK_SIZE);
-    let currentChunk = 0;
-
-    const sendChunk = async () => {
-      const start = currentChunk * CHUNK_SIZE;
-      const end = Math.min(start + CHUNK_SIZE, jsonData.length);
-      const chunk = jsonData.slice(start, end);
-
-      const chunkPayload = {
-        fileIdentity: props.selectedWord,
-        chunkData: chunk,
-        chunkNumber: currentChunk + 1,
-        totalChunks: totalChunks,
-      };
-
-      await fetch("http://localhost:5000/data", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(chunkPayload),
+    await fetch("http://localhost:5000/data", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(Data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Data sent successfully to local API:", data);
       })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(`Chunk ${currentChunk + 1} sent successfully:`, data);
-          currentChunk++;
-          if (currentChunk < totalChunks) {
-            sendChunk(); // Continue with the next chunk
-          } else {
-            console.log("All chunks sent successfully!");
-          }
-        })
-        .catch((error) => {
-          console.error("Error sending chunk:", error);
-        });
-    };
-
-    // Start sending the first chunk
-    sendChunk();
+      .catch((error) => {
+        console.error("Error sending data to local API:", error);
+      });
   };
 
   // Utility function to convert a Blob to Base64
@@ -263,37 +332,6 @@ const Paint = (props) => {
       reader.readAsDataURL(blob);
     });
   };
-
-  // const stopRecording = async () => {
-  //   const imgUrlToSent = downloadImage();
-  //   setRecording(false);
-  //   setIsDrawingDone(true);
-  //   if (mediaRecorderRef.current) {
-  //     mediaRecorderRef.current.stop();
-  //   }
-
-  //   // Disable drawing
-  //   setIsDrawing(false);
-  //   if (isDrawn === true) {
-  //     mediaRecorderRef.current.onstop = async () => {
-  //       const videoBlob = new Blob(chunksRef.current, {
-  //         type: "video/webm; codecs=vp9",
-  //       });
-  //       const fastForwardedVideoBase64 = await createFastForwardedVideo(
-  //         videoBlob
-  //       );
-  //       // Set the fast-forwarded video URL for displaying
-  //       setVideoURL(fastForwardedVideoBase64);
-
-  //       // Trigger download of the fast-forwarded video
-  //       // downloadFastForwardedVideo(fastForwardedVideoURL);
-  //       sendDataToReceiver(fastForwardedVideoBase64, imgUrlToSent);
-
-  //       // Clear recorded chunks
-  //       chunksRef.current = [];
-  //     };
-  //   }
-  // };
 
   const createFastForwardedVideo = (videoBlob) => {
     return new Promise((resolve) => {
