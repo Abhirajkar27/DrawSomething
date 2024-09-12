@@ -188,7 +188,7 @@ const Paint = (props) => {
           videoBlob
         );
         chunksRef.current = [];
-
+        console.log("Fast Forwarded vdo base64",fastForwardedVideoBase64);
         setVideoURL(fastForwardedVideoBase64);
 
         // Generate a unique file identity for video and image
@@ -269,7 +269,7 @@ const Paint = (props) => {
       const readFileAsDataURL = (fileChunk) => {
         return new Promise((resolve, reject) => {
           const reader = new FileReader();
-          reader.onload = (event) => resolve(event.target.result.split(",")[1]); // Extract base64 data
+          reader.onload = (event) => resolve(event.target.result.split(",")[1]); 
           reader.onerror = (error) => reject(error);
           reader.readAsDataURL(new Blob([fileChunk])); // Convert chunk to base64 for upload
         });
@@ -278,7 +278,8 @@ const Paint = (props) => {
       try {
         const chunkData = await readFileAsDataURL(chunk); // Wait for the FileReader to complete
         // console.log("after File Reader", chunkData);
-        const s3Link = await uploadChunk(chunk, currentChunk, totalChunks);
+        const s3Link = await uploadChunk(chunk
+          , currentChunk, totalChunks);
         currentChunk++;
 
         if (currentChunk < totalChunks) {
