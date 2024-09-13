@@ -52,6 +52,7 @@ const Paint = (props) => {
   }, []);
 
   const startDrawing = (event) => {
+    // console.log("Starting Drawing");
     setIsDrawn(true);
     const nativeEvent = event.nativeEvent;
     const { offsetX, offsetY } =
@@ -103,6 +104,7 @@ const Paint = (props) => {
       mediaRecorderRef.current &&
       mediaRecorderRef.current.state === "recording"
     ) {
+      // console.log("Pause Drawing recording");
       mediaRecorderRef.current.pause();
       setIsRecordingPaused(true);
     }
@@ -154,6 +156,7 @@ const Paint = (props) => {
   };
 
   const startRecording = () => {
+    // console.log("Start Drawing recording");
     setRecording(true);
     const stream = canvasRef.current.captureStream(30);
     mediaRecorderRef.current = new MediaRecorder(stream);
@@ -163,9 +166,20 @@ const Paint = (props) => {
     };
 
     mediaRecorderRef.current.start();
+
+    if (
+      mediaRecorderRef.current &&
+      mediaRecorderRef.current.state === "recording"
+    ) {
+      // console.log("Pause Drawing recording");
+      mediaRecorderRef.current.pause();
+      setIsRecordingPaused(true);
+    }
+
   };
 
   const stopRecording = async () => {
+    // console.log("Stopped Drawing recording");
     const imgUrlToSent = downloadImage();
     console.log("imageBase64", imgUrlToSent);
     setRecording(false);
