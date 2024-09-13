@@ -14,7 +14,7 @@ const GameProvider = ({ children }) => {
 
   useEffect(() => {
     if (isChallenge) {
-      const id = "0b0058fa-b80f-4ca0-b331-516c3e95be08";
+      const id = "298e5211-3fec-41fc-882b-8247d9293216";
       fetch(`http://localhost:5000/data/${id}`)
         .then(response => response.json())
         .then(data => {

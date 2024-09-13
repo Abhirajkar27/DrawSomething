@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState, useEffect } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { GameContext } from "../context/context";
 
 const ChallengePlaying = () => {
@@ -7,45 +7,6 @@ const ChallengePlaying = () => {
   const [isWinner, setIsWinner] = useState(false);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false); 
   const videoRef = useRef(null);
-  const [videoBlobURL, setVideoBlobURL] = useState(""); 
-
-  // Decode base64 image
-  const imageSrc = `data:image/jpeg;base64,${imgString}`;
-
-  useEffect(() => {
-    if (videoURL) {
-      try {
-        // Remove the data URI prefix if present
-        const base64Data = videoURL.split(",")[1];
-
-        // Convert base64 to Blob and create an object URL
-        const blob = base64ToBlob(base64Data, "video/webm"); 
-        const url = URL.createObjectURL(blob);
-        setVideoBlobURL(url);
-
-        // Cleanup object URL when component unmounts
-        return () => URL.revokeObjectURL(url);
-      } catch (error) {
-        console.error("Error converting base64 to Blob:", error);
-      }
-    }
-  }, [videoURL]);
-
-  // Convert base64 to Blob
-  const base64ToBlob = (base64, mimeType) => {
-    try {
-      const byteCharacters = atob(base64);
-      const byteNumbers = new Array(byteCharacters.length);
-      for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
-      }
-      const byteArray = new Uint8Array(byteNumbers);
-      return new Blob([byteArray], { type: mimeType });
-    } catch (error) {
-      console.error("Error decoding base64:", error);
-      return null;
-    }
-  };
 
   // Check if the selected word is correct
   const handleWordSelection = (word) => {
@@ -67,15 +28,15 @@ const ChallengePlaying = () => {
 
   return (
     <div style={styles.container}>
-      {/* Base64 Image */}
-      <img src={imageSrc} alt="Challenge" style={styles.image} />
+      {/* Image from S3 link */}
+      <img src={imgString} alt="Challenge" style={styles.image} />
 
       {/* Video Section */}
       <div style={styles.videoContainer}>
-        {videoBlobURL && (
+        {videoURL && (
           <video
             ref={videoRef}
-            src={videoBlobURL}
+            src={videoURL}
             style={styles.video}
             loop
             controls
