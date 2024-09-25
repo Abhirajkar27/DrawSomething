@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import Paint from "../Pages/ChallengeCreation";
+import Paint from "./ChallengeCreation";
 import "./WordSelection.css";
 import { GameContext } from "../context/context";
 import Delulu_logo from "../assets/img/DELUKLU.png";

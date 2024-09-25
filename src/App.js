@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
-import WordSelection from "./components/WordSelection";
+import WordSelection from "./Pages/WordSelection";
 import { GameProvider } from "./context/context";
 import ChallengePlaying from "./Pages/ChallengePlaying";
 import Backgrounddots from "./components/Backgrounddots";
