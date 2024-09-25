@@ -13,11 +13,20 @@ const WordSelection = (props) => {
     useContext(GameContext);
 
   const [isPaintVisible, setIsPaintVisible] = useState(false);
+  const [options, setOptions]=useState([]);
 
   const handleWordSelect = (word) => {
     console.log("here", word);
     setSelectedWord(word);
   };
+
+  useEffect(() => {
+    const selectRandomWords = () => {
+      const shuffledWords = words.sort(() => Math.random() - 0.5); 
+      return shuffledWords.slice(0, 3); 
+    };
+    setOptions(selectRandomWords());
+  }, []);
 
   const handleStart = () => {
     if (selectedWord) {
@@ -28,10 +37,11 @@ const WordSelection = (props) => {
   };
 
   useEffect(() => {
+    console.log("running");
     if (isChallenge) {
       props.setAppPage("ChallengeMode");
     }
-  });
+  },[]);
 
   if (isPaintVisible) {
     return <Paint selectedWord={selectedWord} />;
@@ -52,7 +62,7 @@ const WordSelection = (props) => {
         <div>
           <span>Choose a word to Draw</span>
           <div style={{marginTop:'4vh'}}>
-          {words.map((word, index) => (
+          {options.map((word, index) => (
             <div key={index} className="word-image-wrapper" onClick={() => handleWordSelect(word)}>
               <img src={option_contn} alt={word} className="word-image" />
               <div className="word-overlay">{word}</div>
