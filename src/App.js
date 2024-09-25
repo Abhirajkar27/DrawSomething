@@ -3,6 +3,8 @@ import "./App.css";
 import WordSelection from "./components/WordSelection";
 import { GameProvider } from "./context/context";
 import ChallengePlaying from "./Pages/ChallengePlaying";
+import Backgrounddots from "./components/Backgrounddots";
+
 
 function App() {
   const [appPage, setAppPage] = useState(null);
@@ -16,6 +18,7 @@ function App() {
   }
   return (
     <div className="App_G6h5">
+      <Backgrounddots/>
       <GameProvider>
         {content}
       </GameProvider>
