@@ -5,5 +5,5 @@ body {
   justify-content: center;
   flex-direction: column;
   height: 100vh;
-  background-color: #384353;
+  background: linear-gradient(180deg, #0052A4 0%, #1FC1EE 100%);
 }
