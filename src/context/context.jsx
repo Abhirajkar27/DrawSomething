@@ -49,6 +49,7 @@ const GameProvider = ({ children }) => {
         setIsChallenge,
         words,
         challengeTopic,
+        sender,
       }}
     >
       {children}

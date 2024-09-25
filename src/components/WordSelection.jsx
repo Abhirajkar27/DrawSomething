@@ -9,7 +9,7 @@ import new_btn from "../assets/img/Get_New_words.png";
 import submit_btn from "../assets/img/Submit.png";
 
 const WordSelection = (props) => {
-  const { selectedWord, setSelectedWord, isChallenge, setIsChallenge, words } =
+  const { selectedWord, setSelectedWord, isChallenge, sender, words } =
     useContext(GameContext);
 
   const [isPaintVisible, setIsPaintVisible] = useState(false);
@@ -73,7 +73,7 @@ const WordSelection = (props) => {
         alt="delulu_logo"
       ></img>
       <div className="WSP_head_G6h5">
-        Let's draw something for Rahul Mathews to guess
+        Let's draw something for {sender} to guess
       </div>
       <div className="picking_contn_G6h5">
         <img className="box_G6h5" src={picking_contn} alt="container_box"></img>
