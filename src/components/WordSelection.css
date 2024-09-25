@@ -95,3 +95,13 @@
   margin-top: 3vh;
   width: 35vw;
 }
+
+@media (max-height: 700px) {
+  .word-image {
+    width: 70%;
+  }
+  .new_option_btn_G6h5{
+    margin-top: 2.5vh;
+    width: 58%;
+  }
+}
