@@ -5,6 +5,7 @@ import { GameContext } from "../context/context";
 import Delulu_logo from "../assets/img/DELUKLU.png";
 import picking_contn from "../assets/img/choose_rectangle.png";
 import option_contn from "../assets/img/option_rectangle.png";
+import high_option_contn from "../assets/img/highlighted_opt_rect.png";
 import new_btn from "../assets/img/Get_New_words.png";
 import submit_btn from "../assets/img/Submit.png";
 
@@ -22,7 +23,6 @@ const WordSelection = (props) => {
   const [options, setOptions] = useState([]);
 
   const handleWordSelect = (word) => {
-    console.log("here", word);
     setSelectedWord(word);
   };
 
@@ -36,7 +36,6 @@ const WordSelection = (props) => {
   }, []);
 
   const getNewOptions = () => {
-    console.log("hey");
     const optionsSet = new Set(options);
     const newOptions = [];
     const shuffledWords = words.sort(() => Math.random() - 0.5);
@@ -46,6 +45,7 @@ const WordSelection = (props) => {
       }
       if (newOptions.length === 3) {
         setOptions(newOptions);
+        setSelectedWord("");
         break;
       }
     }
@@ -92,7 +92,7 @@ const WordSelection = (props) => {
                 className="word-image-wrapper"
                 onClick={() => handleWordSelect(word)}
               >
-                <img src={option_contn} alt={word} className="word-image" />
+                <img src={word === selectedWord ? high_option_contn: option_contn} alt={word} className="word-image" />
                 <div className="word-overlay">{word}</div>
               </div>
             ))}
