@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect, useContext } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaintBrush, faEraser } from "@fortawesome/free-solid-svg-icons";
+import back_btn from "../assets/img/BKspace.png";
+import submit_btn from "../assets/img/Submit.png";
 import "./ChallengeCreation.css";
 import { GameContext } from "../context/context";
 import { v4 as uuidv4 } from "uuid";
@@ -33,8 +33,8 @@ const Paint = (props) => {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    canvas.width = window.innerWidth * 0.9;
-    canvas.height = window.innerHeight * 0.5;
+    canvas.width = window.innerWidth * 0.88;
+    canvas.height = window.innerHeight * 0.4;
 
     const context = canvas.getContext("2d");
 
@@ -491,28 +491,30 @@ const Paint = (props) => {
   }
 
   return (
+    
+    //   <div>Draw {props.selectedWord}</div>
+    //   <div>
+    //     <button onClick={() => handleColorChange("black")}>
+    //       <FontAwesomeIcon icon={faPaintBrush} color="black" />{" "}
+    //     </button>
+    //     <button onClick={() => handleColorChange("blue")}>
+    //       <FontAwesomeIcon icon={faPaintBrush} color="blue" />{" "}
+    //     </button>
+    //     <button onClick={() => handleColorChange("green")}>
+    //       <FontAwesomeIcon icon={faPaintBrush} color="green" />{" "}
+    //     </button>
+    //     <button onClick={() => handleColorChange("white")}>
+    //       <FontAwesomeIcon icon={faEraser} />
+    //     </button>
+    //     <button onClick={() => handleLineWidthChange(3)}>Thin</button>
+    //     <button onClick={() => handleLineWidthChange(7)}>Medium</button>
+    //     <button onClick={() => handleLineWidthChange(12)}>Thick</button>
+    //     <button onClick={clearCanvas}>Clear</button>
+    //   </div>
     <div className="CreationLanding_G6h5">
-      <div>Draw {props.selectedWord}</div>
-      <div>
-        <button onClick={() => handleColorChange("black")}>
-          <FontAwesomeIcon icon={faPaintBrush} color="black" />{" "}
-        </button>
-        <button onClick={() => handleColorChange("blue")}>
-          <FontAwesomeIcon icon={faPaintBrush} color="blue" />{" "}
-        </button>
-        <button onClick={() => handleColorChange("green")}>
-          <FontAwesomeIcon icon={faPaintBrush} color="green" />{" "}
-        </button>
-        <button onClick={() => handleColorChange("white")}>
-          <FontAwesomeIcon icon={faEraser} />
-        </button>
-        <button onClick={() => handleLineWidthChange(3)}>Thin</button>
-        <button onClick={() => handleLineWidthChange(7)}>Medium</button>
-        <button onClick={() => handleLineWidthChange(12)}>Thick</button>
-        <button onClick={clearCanvas}>Clear</button>
-      </div>
-
-      <canvas
+      <img className="bck_btn_G6h5" src={back_btn} alt='back'/>
+      <div className="greet_creation_G6h5">Draw <span>{props.selectedWord}</span> Rahul Mathews</div>
+       <canvas
         ref={canvasRef}
         onMouseDown={startDrawing}
         onMouseUp={finishDrawing}
@@ -522,21 +524,25 @@ const Paint = (props) => {
         onTouchEnd={finishDrawing}
         onTouchMove={draw}
         onTouchCancel={finishDrawing}
-        style={{
-          border: "1px solid black",
-          marginTop: "10px",
-        }}
+        className="canvas_G6h5"
       />
-      <div>
-        <button className="btn_drawPage_G5h6" onClick={downloadImage}>
-          Download Image
-        </button>
-        <button className="btn_drawPage_G5h6" onClick={handleSeeSequence}>
-          Submit
-        </button>
-      </div>
-      <div>Draw and send for Challenge</div>
+       <img
+        onClick={handleSeeSequence}
+        className="btn_drawPage_G5h6"
+        src={submit_btn}
+        alt="submit_btn"
+      />
     </div>
+    //   <div>
+    //     <button className="btn_drawPage_G5h6" onClick={downloadImage}>
+    //       Download Image
+    //     </button>
+    //     <button className="btn_drawPage_G5h6" onClick={handleSeeSequence}>
+    //       Submit
+    //     </button>
+    //   </div>
+    //   <div>Draw and send for Challenge</div>
+    
   );
 };
 
