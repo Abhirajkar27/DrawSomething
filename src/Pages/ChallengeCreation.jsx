@@ -6,6 +6,7 @@ import "./ChallengeCreation.css";
 import { GameContext } from "../context/context";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
+import CanvaOption from "../components/Canvaoption";
 
 const Paint = (props) => {
   const {
@@ -496,15 +497,6 @@ const Paint = (props) => {
   return (
     //   <div>Draw {props.selectedWord}</div>
     //   <div>
-    //     <button onClick={() => handleColorChange("black")}>
-    //       <FontAwesomeIcon icon={faPaintBrush} color="black" />{" "}
-    //     </button>
-    //     <button onClick={() => handleColorChange("blue")}>
-    //       <FontAwesomeIcon icon={faPaintBrush} color="blue" />{" "}
-    //     </button>
-    //     <button onClick={() => handleColorChange("green")}>
-    //       <FontAwesomeIcon icon={faPaintBrush} color="green" />{" "}
-    //     </button>
     //     <button onClick={() => handleColorChange("white")}>
     //       <FontAwesomeIcon icon={faEraser} />
     //     </button>
@@ -531,6 +523,7 @@ const Paint = (props) => {
         className="canvas_G6h5"
       />
       <ColorPallet onChangeColor={handleColorChange}/>
+      <CanvaOption/>
       <img
         onClick={handleSeeSequence}
         className="btn_drawPage_G5h6"
