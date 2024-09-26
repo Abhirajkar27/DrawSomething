@@ -1,7 +1,7 @@
 import React from "react";
 import './Canvaoption.css';
-const CanvaOption = () => {
-  const BackgroundChange = ({ colorCode }) => (
+const CanvaOption = (props) => {
+  const BackgroundChange = () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="40"
@@ -29,7 +29,7 @@ const CanvaOption = () => {
       <path d="M8 28.5V26M8 9V23" stroke="white" stroke-linecap="round" />
     </svg>
   );
-  const Brush = ({ colorCode }) => (
+  const Brush = () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="40"
@@ -69,13 +69,14 @@ const CanvaOption = () => {
       />
     </svg>
   );
-  const Eraser = ({ colorCode }) => (
+  const Eraser = () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="40"
       height="40"
       viewBox="0 0 40 40"
       fill="none"
+      onClick={props.onErase}
     >
       <mask
         id="path-1-outside-1_2310_16122"
@@ -127,7 +128,7 @@ const CanvaOption = () => {
       />
     </svg>
   );
-  const UndoDrawing = ({ colorCode }) => (
+  const UndoDrawing = () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="40"
@@ -181,13 +182,14 @@ const CanvaOption = () => {
       />
     </svg>
   );
-  const ClearBoard = ({ colorCode }) => (
+  const ClearBoard = () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="40"
       height="40"
       viewBox="0 0 40 40"
       fill="none"
+      onClick={props.onClear}
     >
       <path
         d="M8 8.3125H33L31.7101 33.1074C31.5923 35.2913 29.8392 37 27.7162 37H13.2841C11.1612 37 9.40806 35.2913 9.2903 33.1074L8 8.3125Z"

@@ -22,6 +22,7 @@
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+  margin-top: 5vh;
 }
 
 .greet_creation_G6h5 span {
@@ -35,7 +36,7 @@
 
 .canvas_G6h5{
   border: 0px;
-  margin-top: 3vh;
+  margin-top: 4vh;
   border-radius: 1vh;
 }
 

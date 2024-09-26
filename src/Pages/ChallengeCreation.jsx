@@ -497,13 +497,9 @@ const Paint = (props) => {
   return (
     //   <div>Draw {props.selectedWord}</div>
     //   <div>
-    //     <button onClick={() => handleColorChange("white")}>
-    //       <FontAwesomeIcon icon={faEraser} />
-    //     </button>
     //     <button onClick={() => handleLineWidthChange(3)}>Thin</button>
     //     <button onClick={() => handleLineWidthChange(7)}>Medium</button>
     //     <button onClick={() => handleLineWidthChange(12)}>Thick</button>
-    //     <button onClick={clearCanvas}>Clear</button>
     //   </div>
     <div className="CreationLanding_G6h5">
       <img onClick={handleBack} className="bck_btn_G6h5" src={back_btn} alt="back" />
@@ -523,7 +519,7 @@ const Paint = (props) => {
         className="canvas_G6h5"
       />
       <ColorPallet onChangeColor={handleColorChange}/>
-      <CanvaOption/>
+      <CanvaOption onErase={() => handleColorChange("white")} onClear={clearCanvas}/>
       <img
         onClick={handleSeeSequence}
         className="btn_drawPage_G5h6"
