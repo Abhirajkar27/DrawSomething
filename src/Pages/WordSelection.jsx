@@ -9,10 +9,16 @@ import new_btn from "../assets/img/Get_New_words.png";
 import submit_btn from "../assets/img/Submit.png";
 
 const WordSelection = (props) => {
-  const { selectedWord, setSelectedWord, isChallenge, sender, words } =
-    useContext(GameContext);
+  const {
+    selectedWord,
+    setSelectedWord,
+    isChallenge,
+    sender,
+    words,
+    isPaintVisible,
+    setIsPaintVisible,
+  } = useContext(GameContext);
 
-  const [isPaintVisible, setIsPaintVisible] = useState(false);
   const [options, setOptions] = useState([]);
 
   const handleWordSelect = (word) => {

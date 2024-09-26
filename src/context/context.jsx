@@ -8,10 +8,22 @@ const GameProvider = ({ children }) => {
   const [isDrawn, setIsDrawn] = useState(false);
   const [playTime, setPlayTime] = useState(0);
   const [isChallenge, setIsChallenge] = useState(false);
-  const [sender, setSender] = useState('Rahul Mathews');
+  const [sender, setSender] = useState("Rahul Mathews");
   const [selectedWord, setSelectedWord] = useState("");
   const [challengeTopic, setChallengeTopic] = useState();
-  const words = ["House", "Bonfire", "Tree", "Hoist", "Habitat", "Rabbit", "Football", "Fan", "Open", "Money"];
+  const [isPaintVisible, setIsPaintVisible] = useState(false);
+  const words = [
+    "House",
+    "Bonfire",
+    "Tree",
+    "Hoist",
+    "Habitat",
+    "Rabbit",
+    "Football",
+    "Fan",
+    "Open",
+    "Money",
+  ];
 
   useEffect(() => {
     if (isChallenge) {
@@ -50,6 +62,8 @@ const GameProvider = ({ children }) => {
         words,
         challengeTopic,
         sender,
+        isPaintVisible,
+        setIsPaintVisible,
       }}
     >
       {children}

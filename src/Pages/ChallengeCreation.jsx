@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect, useContext } from "react";
+import ColorPallet from '../components/colorPallet';
 import back_btn from "../assets/img/BKspace.png";
 import submit_btn from "../assets/img/Submit.png";
 import "./ChallengeCreation.css";
@@ -16,6 +17,7 @@ const Paint = (props) => {
     setIsDrawn,
     playTime,
     setPlayTime,
+    setIsPaintVisible,
   } = useContext(GameContext);
 
   const canvasRef = useRef(null);
@@ -50,6 +52,10 @@ const Paint = (props) => {
   useEffect(() => {
     startRecording();
   }, []);
+
+  const handleBack = () => {
+    setIsPaintVisible(false);
+  };
 
   const startDrawing = (event) => {
     // console.log("Starting Drawing");
@@ -175,7 +181,6 @@ const Paint = (props) => {
       mediaRecorderRef.current.pause();
       setIsRecordingPaused(true);
     }
-
   };
 
   const stopRecording = async () => {
@@ -202,7 +207,7 @@ const Paint = (props) => {
           videoBlob
         );
         chunksRef.current = [];
-        console.log("Fast Forwarded vdo base64",fastForwardedVideoBase64);
+        console.log("Fast Forwarded vdo base64", fastForwardedVideoBase64);
         setVideoURL(fastForwardedVideoBase64);
 
         // Generate a unique file identity for video and image
@@ -246,7 +251,6 @@ const Paint = (props) => {
         mimeType,
       };
 
-
       if (chunkNumber + 1 !== 1) {
         payload["uploadId"] = uploadIdRef.current;
       }
@@ -283,7 +287,7 @@ const Paint = (props) => {
       const readFileAsDataURL = (fileChunk) => {
         return new Promise((resolve, reject) => {
           const reader = new FileReader();
-          reader.onload = (event) => resolve(event.target.result.split(",")[1]); 
+          reader.onload = (event) => resolve(event.target.result.split(",")[1]);
           reader.onerror = (error) => reject(error);
           reader.readAsDataURL(new Blob([fileChunk])); // Convert chunk to base64 for upload
         });
@@ -292,8 +296,7 @@ const Paint = (props) => {
       try {
         const chunkData = await readFileAsDataURL(chunk); // Wait for the FileReader to complete
         // console.log("after File Reader", chunkData);
-        const s3Link = await uploadChunk(chunk
-          , currentChunk, totalChunks);
+        const s3Link = await uploadChunk(chunk, currentChunk, totalChunks);
         currentChunk++;
 
         if (currentChunk < totalChunks) {
@@ -491,7 +494,6 @@ const Paint = (props) => {
   }
 
   return (
-    
     //   <div>Draw {props.selectedWord}</div>
     //   <div>
     //     <button onClick={() => handleColorChange("black")}>
@@ -512,9 +514,11 @@ const Paint = (props) => {
     //     <button onClick={clearCanvas}>Clear</button>
     //   </div>
     <div className="CreationLanding_G6h5">
-      <img className="bck_btn_G6h5" src={back_btn} alt='back'/>
-      <div className="greet_creation_G6h5">Draw <span>{props.selectedWord}</span> Rahul Mathews</div>
-       <canvas
+      <img onClick={handleBack} className="bck_btn_G6h5" src={back_btn} alt="back" />
+      <div className="greet_creation_G6h5">
+        Draw <span>{props.selectedWord}</span> Rahul Mathews
+      </div>
+      <canvas
         ref={canvasRef}
         onMouseDown={startDrawing}
         onMouseUp={finishDrawing}
@@ -526,7 +530,8 @@ const Paint = (props) => {
         onTouchCancel={finishDrawing}
         className="canvas_G6h5"
       />
-       <img
+      <ColorPallet/>
+      <img
         onClick={handleSeeSequence}
         className="btn_drawPage_G5h6"
         src={submit_btn}
@@ -542,7 +547,6 @@ const Paint = (props) => {
     //     </button>
     //   </div>
     //   <div>Draw and send for Challenge</div>
-    
   );
 };
 
