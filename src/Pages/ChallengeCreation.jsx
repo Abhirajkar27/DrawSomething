@@ -40,7 +40,7 @@ const Paint = (props) => {
     canvas.width = window.innerWidth * 0.86;
     canvas.height = window.innerHeight * 0.4;
 
-    const context = canvas.getContext("2d");
+    const context = canvas.getContext("2d",{ willReadFrequently: true });
 
     context.fillStyle = "white";
     context.fillRect(0, 0, canvas.width, canvas.height);
@@ -49,7 +49,6 @@ const Paint = (props) => {
     context.lineWidth = lineWidth;
     context.lineCap = "round";
     contextRef.current = context;
-    console.log(contextRef);
   }, []);
 
   useEffect(() => {
@@ -88,9 +87,8 @@ const Paint = (props) => {
     console.log("Hey Changing Color %s", color);
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
-  
+    // context.clearRect(0, 0, canvas.width, canvas.height);
     // const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-  
     context.fillStyle =  color;
     context.fillRect(0, 0, canvas.width, canvas.height);
 
