@@ -530,7 +530,7 @@ const Paint = (props) => {
         onTouchCancel={finishDrawing}
         className="canvas_G6h5"
       />
-      <ColorPallet/>
+      <ColorPallet onChangeColor={handleColorChange}/>
       <img
         onClick={handleSeeSequence}
         className="btn_drawPage_G5h6"
