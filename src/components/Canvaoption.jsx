@@ -135,6 +135,7 @@ const CanvaOption = (props) => {
       height="40"
       viewBox="0 0 40 40"
       fill="none"
+      onClick={props.onUndo}
     >
       <mask
         id="path-1-outside-1_2310_16128"

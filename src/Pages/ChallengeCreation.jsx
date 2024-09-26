@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect, useContext } from "react";
-import ColorPallet from '../components/colorPallet';
+import ColorPallet from "../components/colorPallet";
 import back_btn from "../assets/img/BKspace.png";
 import submit_btn from "../assets/img/Submit.png";
 import "./ChallengeCreation.css";
@@ -30,13 +30,14 @@ const Paint = (props) => {
   const [isDrawingDone, setIsDrawingDone] = useState(false);
   const mediaRecorderRef = useRef(null);
   const chunksRef = useRef([]);
+  const [history, setHistory] = useState([]);
   const [isRecordingPaused, setIsRecordingPaused] = useState(false);
-  const drawStartTimeRef = useRef(0); // To track when drawing starts
-  const totalDrawTimeRef = useRef(0); // To accumulate total drawing time
+  const drawStartTimeRef = useRef(0);
+  const totalDrawTimeRef = useRef(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    canvas.width = window.innerWidth * 0.88;
+    canvas.width = window.innerWidth * 0.86;
     canvas.height = window.innerHeight * 0.4;
 
     const context = canvas.getContext("2d");
@@ -56,6 +57,30 @@ const Paint = (props) => {
 
   const handleBack = () => {
     setIsPaintVisible(false);
+  };
+
+  const saveToHistory = () => {
+    const canvas = canvasRef.current;
+    const context = canvas.getContext("2d");
+    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    setHistory((prevHistory) => [...prevHistory, imageData]);
+  };
+  const undo = () => {
+    if (history.length === 0) return;
+    setHistory((prevHistory) => {
+      const newHistory = prevHistory.slice(0, -1);
+
+      if (newHistory.length > 0) {
+        const previousState = newHistory[newHistory.length - 1];
+        const canvas = canvasRef.current;
+        const context = canvas.getContext("2d");
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.putImageData(previousState, 0, 0);
+      } else {
+        clearCanvas();
+      }
+      return newHistory;
+    });
   };
 
   const startDrawing = (event) => {
@@ -99,6 +124,7 @@ const Paint = (props) => {
   const finishDrawing = () => {
     contextRef.current.closePath();
     setIsDrawing(false);
+    saveToHistory();
 
     if (drawStartTimeRef.current) {
       const drawTime = Date.now() - drawStartTimeRef.current;
@@ -502,7 +528,12 @@ const Paint = (props) => {
     //     <button onClick={() => handleLineWidthChange(12)}>Thick</button>
     //   </div>
     <div className="CreationLanding_G6h5">
-      <img onClick={handleBack} className="bck_btn_G6h5" src={back_btn} alt="back" />
+      <img
+        onClick={handleBack}
+        className="bck_btn_G6h5"
+        src={back_btn}
+        alt="back"
+      />
       <div className="greet_creation_G6h5">
         Draw <span>{props.selectedWord}</span> Rahul Mathews
       </div>
@@ -518,8 +549,12 @@ const Paint = (props) => {
         onTouchCancel={finishDrawing}
         className="canvas_G6h5"
       />
-      <ColorPallet onChangeColor={handleColorChange}/>
-      <CanvaOption onErase={() => handleColorChange("white")} onClear={clearCanvas}/>
+      <ColorPallet onChangeColor={handleColorChange} />
+      <CanvaOption
+        onErase={() => handleColorChange("white")}
+        onClear={clearCanvas}
+        onUndo={undo}
+      />
       <img
         onClick={handleSeeSequence}
         className="btn_drawPage_G5h6"
