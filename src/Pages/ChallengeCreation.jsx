@@ -49,6 +49,7 @@ const Paint = (props) => {
     context.lineWidth = lineWidth;
     context.lineCap = "round";
     contextRef.current = context;
+    console.log(contextRef);
   }, []);
 
   useEffect(() => {
@@ -82,6 +83,21 @@ const Paint = (props) => {
       return newHistory;
     });
   };
+
+  const changeBackgroundColor = (color) => {
+    console.log("Hey Changing Color %s", color);
+    const canvas = canvasRef.current;
+    const context = canvas.getContext("2d");
+  
+    // const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+  
+    context.fillStyle =  color;
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    // context.putImageData(imageData, 0, 0);
+    console.log("Done with changes");
+  };
+  
 
   const startDrawing = (event) => {
     // console.log("Starting Drawing");
@@ -554,6 +570,7 @@ const Paint = (props) => {
         onErase={() => handleColorChange("white")}
         onClear={clearCanvas}
         onUndo={undo}
+        onChangeBackground={changeBackgroundColor}
       />
       <img
         onClick={handleSeeSequence}

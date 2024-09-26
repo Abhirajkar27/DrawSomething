@@ -8,6 +8,7 @@ const CanvaOption = (props) => {
       height="40"
       viewBox="0 0 40 40"
       fill="none"
+      onClick={()=>props.onChangeBackground('#FE0000')}
     >
       <rect
         x="1.75"
