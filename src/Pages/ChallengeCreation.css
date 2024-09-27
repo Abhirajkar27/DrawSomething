@@ -34,7 +34,19 @@
   line-height: normal;
 }
 
+.draw_Board_wrapper{
+  position: relative;
+}
+
+.draw_board_h5G{
+  width: 90vw;
+}
+
 .canvas_G6h5{
+  position: absolute;
+  top: 7.5%;
+  left: 50%;
+  transform: translate(-50%, 0%);
   border: 0px;
   margin-top: 4vh;
   border-radius: 1vh;

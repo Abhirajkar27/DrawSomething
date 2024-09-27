@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect, useContext } from "react";
 import ColorPallet from "../components/colorPallet";
 import back_btn from "../assets/img/BKspace.png";
 import submit_btn from "../assets/img/Submit.png";
+import Board from "../assets/img/Drawing_Board.png";
 import "./ChallengeCreation.css";
 import { GameContext } from "../context/context";
 import { v4 as uuidv4 } from "uuid";
@@ -38,9 +39,9 @@ const Paint = (props) => {
   useEffect(() => {
     const canvas = canvasRef.current;
     canvas.width = window.innerWidth * 0.86;
-    canvas.height = window.innerHeight * 0.4;
+    canvas.height = window.innerHeight * 0.39;
 
-    const context = canvas.getContext("2d",{ willReadFrequently: true });
+    const context = canvas.getContext("2d", { willReadFrequently: true });
 
     context.fillStyle = "white";
     context.fillRect(0, 0, canvas.width, canvas.height);
@@ -89,13 +90,12 @@ const Paint = (props) => {
     const context = canvas.getContext("2d");
     // context.clearRect(0, 0, canvas.width, canvas.height);
     // const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-    context.fillStyle =  color;
+    context.fillStyle = color;
     context.fillRect(0, 0, canvas.width, canvas.height);
 
     // context.putImageData(imageData, 0, 0);
     console.log("Done with changes");
   };
-  
 
   const startDrawing = (event) => {
     // console.log("Starting Drawing");
@@ -551,18 +551,21 @@ const Paint = (props) => {
       <div className="greet_creation_G6h5">
         Draw <span>{props.selectedWord}</span> Rahul Mathews
       </div>
-      <canvas
-        ref={canvasRef}
-        onMouseDown={startDrawing}
-        onMouseUp={finishDrawing}
-        onMouseMove={draw}
-        onMouseLeave={finishDrawing}
-        onTouchStart={startDrawing}
-        onTouchEnd={finishDrawing}
-        onTouchMove={draw}
-        onTouchCancel={finishDrawing}
-        className="canvas_G6h5"
-      />
+      <div className="draw_Board_wrapper">
+        <img className="draw_board_h5G" src={Board}/>
+        <canvas
+          ref={canvasRef}
+          onMouseDown={startDrawing}
+          onMouseUp={finishDrawing}
+          onMouseMove={draw}
+          onMouseLeave={finishDrawing}
+          onTouchStart={startDrawing}
+          onTouchEnd={finishDrawing}
+          onTouchMove={draw}
+          onTouchCancel={finishDrawing}
+          className="canvas_G6h5"
+        />
+      </div>
       <ColorPallet onChangeColor={handleColorChange} />
       <CanvaOption
         onErase={() => handleColorChange("white")}
