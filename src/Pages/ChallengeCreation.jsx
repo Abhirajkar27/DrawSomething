@@ -35,6 +35,7 @@ const Paint = (props) => {
   const [isRecordingPaused, setIsRecordingPaused] = useState(false);
   const drawStartTimeRef = useRef(0);
   const totalDrawTimeRef = useRef(0);
+  const [colorBeforeErase, setColorBeforeErase] = useState();
   const [isPenSelected, setIsPenSelected] = useState(true);
 
   useEffect(() => {
@@ -572,12 +573,13 @@ const Paint = (props) => {
       )}
       <CanvaOption
         onErase={() => {
+          setColorBeforeErase(color);
           handleColorChange("white");
           setIsPenSelected(false);
         }}
         onSelectBrush={() => {
           setIsPenSelected(true);
-          handleColorChange('Black');
+          handleColorChange(colorBeforeErase);
         }}
         onClear={clearCanvas}
         onUndo={undo}
