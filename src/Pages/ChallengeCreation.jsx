@@ -1,13 +1,13 @@
 import React, { useRef, useState, useEffect, useContext } from "react";
 import ColorPallet from "../components/colorPallet";
 import back_btn from "../assets/img/BKspace.png";
-import submit_btn from "../assets/img/Submit.png";
 import Board from "../assets/img/Drawing_Board.png";
 import "./ChallengeCreation.css";
 import { GameContext } from "../context/context";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import CanvaOption from "../components/Canvaoption";
+import SubmitnInfo from "../components/SubmitnInfo";
 
 const Paint = (props) => {
   const {
@@ -585,12 +585,12 @@ const Paint = (props) => {
         onUndo={undo}
         onChangeBackground={changeBackgroundColor}
       />
-      <img
-        onClick={handleSeeSequence}
+      {/* <img
         className="btn_drawPage_G5h6"
         src={submit_btn}
         alt="submit_btn"
-      />
+      /> */}
+      <SubmitnInfo onSubmitClick={handleSeeSequence}/>
     </div>
     //   <div>
     //     <button className="btn_drawPage_G5h6" onClick={downloadImage}>

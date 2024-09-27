@@ -15,7 +15,7 @@ const SubmitnInfo = (props) => {
         }}
       >
         <img
-          onClick={props.handleStart}
+          onClick={props.onSubmitClick}
           className="startbtn_G6h5"
           src={submit_btn}
           alt="submit_btn"

@@ -108,7 +108,7 @@ const WordSelection = (props) => {
           />
         </div>
       </div>
-      <SubmitnInfo handleStart={handleStart}/>
+      <SubmitnInfo onSubmitClick={handleStart}/>
     </div>
   );
 };
