@@ -35,6 +35,7 @@ const Paint = (props) => {
   const [isRecordingPaused, setIsRecordingPaused] = useState(false);
   const drawStartTimeRef = useRef(0);
   const totalDrawTimeRef = useRef(0);
+  const [isPenSelected, setIsPenSelected] = useState(true);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -552,7 +553,7 @@ const Paint = (props) => {
         Draw <span>{props.selectedWord}</span> Rahul Mathews
       </div>
       <div className="draw_Board_wrapper">
-        <img className="draw_board_h5G" src={Board}/>
+        <img className="draw_board_h5G" src={Board} />
         <canvas
           ref={canvasRef}
           onMouseDown={startDrawing}
@@ -566,9 +567,18 @@ const Paint = (props) => {
           className="canvas_G6h5"
         />
       </div>
-      <ColorPallet onChangeColor={handleColorChange} />
+      {isPenSelected && (
+        <ColorPallet onChangeColor={handleColorChange} selColor={color} />
+      )}
       <CanvaOption
-        onErase={() => handleColorChange("white")}
+        onErase={() => {
+          handleColorChange("white");
+          setIsPenSelected(false);
+        }}
+        onSelectBrush={() => {
+          setIsPenSelected(true);
+          handleColorChange('Black');
+        }}
         onClear={clearCanvas}
         onUndo={undo}
         onChangeBackground={changeBackgroundColor}
