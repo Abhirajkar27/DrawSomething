@@ -7,7 +7,7 @@ import picking_contn from "../assets/img/choose_rectangle.png";
 import option_contn from "../assets/img/option_rectangle.png";
 import high_option_contn from "../assets/img/highlighted_opt_rect.png";
 import new_btn from "../assets/img/Get_New_words.png";
-import submit_btn from "../assets/img/Submit.png";
+import SubmitnInfo from "../components/SubmitnInfo";
 
 const WordSelection = (props) => {
   const {
@@ -92,7 +92,11 @@ const WordSelection = (props) => {
                 className="word-image-wrapper"
                 onClick={() => handleWordSelect(word)}
               >
-                <img src={word === selectedWord ? high_option_contn: option_contn} alt={word} className="word-image" />
+                <img
+                  src={word === selectedWord ? high_option_contn : option_contn}
+                  alt={word}
+                  className="word-image"
+                />
                 <div className="word-overlay">{word}</div>
               </div>
             ))}
@@ -104,12 +108,7 @@ const WordSelection = (props) => {
           />
         </div>
       </div>
-      <img
-        onClick={handleStart}
-        className="startbtn_G6h5"
-        src={submit_btn}
-        alt="submit_btn"
-      />
+      <SubmitnInfo handleStart={handleStart}/>
     </div>
   );
 };
