@@ -17,7 +17,7 @@ const ColorPallet = (props) => {
           </svg>
           <svg
             style={{
-              top: "45%",
+              top: "46.5%",
               left: "50%",
               transform: "translate(-50%, -50%)",
               position: "absolute",
