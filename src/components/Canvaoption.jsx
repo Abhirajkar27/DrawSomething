@@ -317,7 +317,7 @@ const CanvaOption = (props) => {
             <circle
               onClick={() => {
                 props.onSelectBrush();
-                props.setWidth(1.5);
+                props.setWidth(2);
                 setShowBrushSize(false);
               }}
               cx="25.5"
@@ -339,7 +339,7 @@ const CanvaOption = (props) => {
             <circle
               onClick={() => {
                 props.onSelectBrush();
-                props.setWidth(8);
+                props.setWidth(10);
                 setShowBrushSize(false);
               }}
               cx="125.5"
@@ -350,7 +350,7 @@ const CanvaOption = (props) => {
             <circle
               onClick={() => {
                 props.onSelectBrush();
-                props.setWidth(13);
+                props.setWidth(15);
                 setShowBrushSize(false);
               }}
               cx="175"

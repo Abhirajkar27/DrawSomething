@@ -178,9 +178,13 @@ const Paint = (props) => {
   };
 
   const handleSelectBrush = () => {
+    if (isPenSelected) {
+      setColor(color);
+      contextRef.current.strokeStyle = color;
+    }else{
     setIsPenSelected(true);
     setColor(colorBeforeErase);
-    contextRef.current.strokeStyle = colorBeforeErase;
+    contextRef.current.strokeStyle = colorBeforeErase;}
   };
 
   const handleLineWidthChange = (width) => {
@@ -546,11 +550,6 @@ const Paint = (props) => {
 
   return (
     //   <div>Draw {props.selectedWord}</div>
-    //   <div>
-    //     <button onClick={() => handleLineWidthChange(3)}>Thin</button>
-    //     <button onClick={() => handleLineWidthChange(7)}>Medium</button>
-    //     <button onClick={() => handleLineWidthChange(12)}>Thick</button>
-    //   </div>
     <div className="CreationLanding_G6h5">
       <img
         onClick={handleBack}
