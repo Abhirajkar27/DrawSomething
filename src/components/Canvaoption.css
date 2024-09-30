@@ -10,6 +10,7 @@
     position: absolute;
     top:-110%;
     left: -10%;
+    z-index: 8;
 }
 .opt_selected{
     transform: scale(1.4);
