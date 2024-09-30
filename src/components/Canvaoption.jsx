@@ -3,13 +3,14 @@ import "./Canvaoption.css";
 const CanvaOption = (props) => {
   const [showBrushSize, setShowBrushSize] = useState(false);
   const [showEraserSize, setShowEraserSize] = useState(false);
-  const BackgroundChange = () => (
+  const FillColor = () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="40"
       height="40"
       viewBox="0 0 40 40"
       fill="none"
+      onClick={props.onFill}
     >
       <path
         d="M5.47344 20.4162C4.30187 21.5878 6.51795 25.7034 10.4232 29.6086C14.3284 33.5138 18.444 35.7299 19.6156 34.5583C20.7872 33.3868 18.5711 29.2712 14.6658 25.366C10.7606 21.4607 6.64502 19.2446 5.47344 20.4162Z"
@@ -326,7 +327,7 @@ const CanvaOption = (props) => {
 
   return (
     <div className="canva_option_G6h5">
-      <BackgroundChange />
+      <FillColor />
       <div style={{ position: "relative" }}>
         {props.isPenSelected && showBrushSize && (
           <svg

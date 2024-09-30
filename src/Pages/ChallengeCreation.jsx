@@ -8,7 +8,6 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import CanvaOption from "../components/Canvaoption";
 import SubmitnInfo from "../components/SubmitnInfo";
-import { width } from "@fortawesome/free-solid-svg-icons/fa0";
 
 const Paint = (props) => {
   const {
@@ -38,6 +37,7 @@ const Paint = (props) => {
   const totalDrawTimeRef = useRef(0);
   const [colorBeforeErase, setColorBeforeErase] = useState("black");
   const [isPenSelected, setIsPenSelected] = useState(true);
+  const [isFillSelected, setIsFillSelected] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -87,18 +87,78 @@ const Paint = (props) => {
     });
   };
 
-  const changeBackgroundColor = (color) => {
-    console.log("Hey Changing Color %s", color);
-    const canvas = canvasRef.current;
-    const context = canvas.getContext("2d");
-    // context.clearRect(0, 0, canvas.width, canvas.height);
-    // const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-    context.fillStyle = color;
-    context.fillRect(0, 0, canvas.width, canvas.height);
-
-    // context.putImageData(imageData, 0, 0);
-    console.log("Done with changes");
+  const handleFillColor = (color) => {
+    setIsFillSelected(true);
   };
+
+  const handleFill = (e) => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const selectedColor = color;
+    const rgbColor = hexToRgb(selectedColor);
+
+    // Perform flood fill
+    floodFill(ctx, Math.floor(x), Math.floor(y), rgbColor);
+  };
+
+  const hexToRgb = (hex) => {
+    const bigint = parseInt(hex.slice(1), 16);
+    const r = (bigint >> 16) & 255;
+    const g = (bigint >> 8) & 255;
+    const b = bigint & 255;
+    return { r, g, b };
+  };
+
+  const getPixelColor = (ctx, x, y) => {
+    const pixel = ctx.getImageData(x, y, 1, 1).data;
+    return { r: pixel[0], g: pixel[1], b: pixel[2], a: pixel[3] };
+  };
+
+  const matchColor = (pixelColor, targetColor) => {
+    return (
+      pixelColor.r === targetColor.r &&
+      pixelColor.g === targetColor.g &&
+      pixelColor.b === targetColor.b &&
+      pixelColor.a === targetColor.a
+    );
+  };
+
+  const floodFill = (ctx, startX, startY, fillColor) => {
+    const canvasWidth = ctx.canvas.width;
+    const canvasHeight = ctx.canvas.height;
+
+    const startColor = getPixelColor(ctx, startX, startY);
+
+    const stack = [[startX, startY]];
+
+    const { r: fr, g: fg, b: fb } = fillColor; // Fill color in RGB format
+
+    while (stack.length) {
+      const [x, y] = stack.pop();
+
+      if (x < 0 || y < 0 || x >= canvasWidth || y >= canvasHeight) continue;
+
+      const currentColor = getPixelColor(ctx, x, y);
+
+      if (matchColor(currentColor, startColor)) {
+        // Set new color using fillRect
+        ctx.fillStyle = `rgb(${fr}, ${fg}, ${fb})`;
+        ctx.fillRect(x, y, 1, 1);
+
+        // Add neighboring pixels to stack
+        stack.push([x + 1, y]);
+        stack.push([x - 1, y]);
+        stack.push([x, y + 1]);
+        stack.push([x, y - 1]);
+      }
+    }
+  };
+
+  // fill function ends here
 
   const startDrawing = (event) => {
     // console.log("Starting Drawing");
@@ -172,6 +232,9 @@ const Paint = (props) => {
   };
 
   const handleErase = () => {
+    if (isFillSelected) {
+      setIsFillSelected(false);
+    }
     if (isPenSelected) {
       setColorBeforeErase(color);
       handleColorChange("white");
@@ -189,6 +252,9 @@ const Paint = (props) => {
   };
 
   const handleSelectBrush = () => {
+    if(isFillSelected){
+      setIsFillSelected(false);
+    }
     if (isPenSelected) {
       setColor(color);
       contextRef.current.strokeStyle = color;
@@ -575,14 +641,16 @@ const Paint = (props) => {
         <img className="draw_board_h5G" src={Board} />
         <canvas
           ref={canvasRef}
-          onMouseDown={startDrawing}
+          // onMouseDown={startDrawing}
+          onMouseDown={isFillSelected ? null : startDrawing} 
           onMouseUp={finishDrawing}
           onMouseMove={draw}
           onMouseLeave={finishDrawing}
-          onTouchStart={startDrawing}
+          onTouchStart={isFillSelected ? null : startDrawing}
           onTouchEnd={finishDrawing}
           onTouchMove={draw}
           onTouchCancel={finishDrawing}
+          onClick={isFillSelected ? handleFill : null}
           className="canvas_G6h5"
         />
       </div>
@@ -592,7 +660,7 @@ const Paint = (props) => {
         onSelectBrush={handleSelectBrush}
         onClear={clearCanvas}
         onUndo={undo}
-        onChangeBackground={changeBackgroundColor}
+        onFill={handleFillColor}
         setWidth={handleLineWidthChange}
         width={lineWidth}
         isPenSelected={isPenSelected}
