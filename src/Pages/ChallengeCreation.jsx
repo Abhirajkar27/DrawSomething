@@ -664,6 +664,7 @@ const Paint = (props) => {
         setWidth={handleLineWidthChange}
         width={lineWidth}
         isPenSelected={isPenSelected}
+        isFillSelected={isFillSelected}
       />
       {/* <img
         className="btn_drawPage_G5h6"

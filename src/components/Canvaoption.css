@@ -11,3 +11,6 @@
     top:-110%;
     left: -10%;
 }
+.opt_selected{
+    transform: scale(1.4);
+}
