@@ -92,7 +92,7 @@ const CanvaOption = (props) => {
       height="40"
       viewBox="0 0 40 40"
       fill="none"
-      onClick={props.isPenSelected ? () => setShowBrushSize(true) : props.onSelectBrush}
+      onClick={props.isPenSelected ? () => setShowBrushSize(true) : ()=>{setShowEraserSize(false); props.onSelectBrush()}}
     >
       <path
         fill-rule="evenodd"
@@ -133,7 +133,7 @@ const CanvaOption = (props) => {
       height="40"
       viewBox="0 0 40 40"
       fill="none"
-      onClick={!props.isPenSelected ? () => setShowEraserSize(true) : props.onErase}
+      onClick={!props.isPenSelected ? () => setShowEraserSize(true) : ()=>{setShowBrushSize(false); props.onErase();}}
     >
       <mask
         id="path-1-outside-1_2310_16122"
