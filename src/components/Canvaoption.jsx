@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Canvaoption.css";
 const CanvaOption = (props) => {
+  const [showBrushSize, setShowBrushSize] = useState(false);
   const BackgroundChange = () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -90,7 +91,7 @@ const CanvaOption = (props) => {
       height="40"
       viewBox="0 0 40 40"
       fill="none"
-      onClick={props.onSelectBrush}
+      onClick={() => setShowBrushSize(true)}
     >
       <path
         fill-rule="evenodd"
@@ -297,7 +298,70 @@ const CanvaOption = (props) => {
   return (
     <div className="canva_option_G6h5">
       <BackgroundChange />
-      <Brush />
+      <div style={{ position: "relative" }}>
+        {showBrushSize && (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="200"
+            height="57"
+            viewBox="0 0 200 57"
+            fill="none"
+            className="brush_Sizes_G6h5"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M200 10C200 4.47715 195.523 0 190 0H10C4.47715 0 0 4.47715 0 10V47C0 52.5228 4.47716 57 10 57C70 57 130 57 190 57C195.523 57 200 52.5228 200 47V10Z"
+              fill="white"
+            />
+            <circle
+              onClick={() => {
+                props.onSelectBrush();
+                props.setWidth(1.5);
+                setShowBrushSize(false);
+              }}
+              cx="25.5"
+              cy="28.5"
+              r="2.5"
+              fill="black"
+            />
+            <circle
+              onClick={() => {
+                props.onSelectBrush();
+                props.setWidth(5);
+                setShowBrushSize(false);
+              }}
+              cx="75"
+              cy="29"
+              r="5"
+              fill="black"
+            />
+            <circle
+              onClick={() => {
+                props.onSelectBrush();
+                props.setWidth(8);
+                setShowBrushSize(false);
+              }}
+              cx="125.5"
+              cy="28.5"
+              r="7.5"
+              fill="black"
+            />
+            <circle
+              onClick={() => {
+                props.onSelectBrush();
+                props.setWidth(13);
+                setShowBrushSize(false);
+              }}
+              cx="175"
+              cy="29"
+              r="10"
+              fill="black"
+            />
+          </svg>
+        )}
+        <Brush />
+      </div>
       <Eraser />
       <UndoDrawing />
       <ClearBoard />

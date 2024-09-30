@@ -587,6 +587,7 @@ const Paint = (props) => {
         onClear={clearCanvas}
         onUndo={undo}
         onChangeBackground={changeBackgroundColor}
+        setWidth={handleLineWidthChange}
       />
       {/* <img
         className="btn_drawPage_G5h6"
