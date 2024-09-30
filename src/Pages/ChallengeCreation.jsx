@@ -89,6 +89,8 @@ const Paint = (props) => {
 
   const handleFillColor = (color) => {
     setIsFillSelected(true);
+    setIsPenSelected(true);
+    handleLineWidthChange(0);
   };
 
   const handleFill = (e) => {
@@ -236,6 +238,7 @@ const Paint = (props) => {
       setIsFillSelected(false);
     }
     if (isPenSelected) {
+      console.log("color before", color);
       setColorBeforeErase(color);
       handleColorChange("white");
       setIsPenSelected(false);
@@ -252,8 +255,12 @@ const Paint = (props) => {
   };
 
   const handleSelectBrush = () => {
-    if(isFillSelected){
+    if (isFillSelected) {
       setIsFillSelected(false);
+      setTimeout(() => {
+        setColor(colorBeforeErase);
+        contextRef.current.strokeStyle = colorBeforeErase;
+      }, 500);
     }
     if (isPenSelected) {
       setColor(color);
@@ -642,7 +649,7 @@ const Paint = (props) => {
         <canvas
           ref={canvasRef}
           // onMouseDown={startDrawing}
-          onMouseDown={isFillSelected ? null : startDrawing} 
+          onMouseDown={isFillSelected ? null : startDrawing}
           onMouseUp={finishDrawing}
           onMouseMove={draw}
           onMouseLeave={finishDrawing}
