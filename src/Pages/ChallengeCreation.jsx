@@ -35,7 +35,7 @@ const Paint = (props) => {
   const [isRecordingPaused, setIsRecordingPaused] = useState(false);
   const drawStartTimeRef = useRef(0);
   const totalDrawTimeRef = useRef(0);
-  const [colorBeforeErase, setColorBeforeErase] = useState();
+  const [colorBeforeErase, setColorBeforeErase] = useState("black");
   const [isPenSelected, setIsPenSelected] = useState(true);
 
   useEffect(() => {
@@ -171,8 +171,16 @@ const Paint = (props) => {
   };
 
   const handleColorChange = (color) => {
-    setColor(color);
-    contextRef.current.strokeStyle = color;
+    if (isPenSelected) {
+      setColor(color);
+      contextRef.current.strokeStyle = color;
+    }
+  };
+
+  const handleSelectBrush = () => {
+    setIsPenSelected(true);
+    setColor(colorBeforeErase);
+    contextRef.current.strokeStyle = colorBeforeErase;
   };
 
   const handleLineWidthChange = (width) => {
@@ -568,19 +576,14 @@ const Paint = (props) => {
           className="canvas_G6h5"
         />
       </div>
-      {isPenSelected && (
-        <ColorPallet onChangeColor={handleColorChange} selColor={color} />
-      )}
+      <ColorPallet onChangeColor={handleColorChange} selColor={color} />
       <CanvaOption
         onErase={() => {
           setColorBeforeErase(color);
           handleColorChange("white");
           setIsPenSelected(false);
         }}
-        onSelectBrush={() => {
-          setIsPenSelected(true);
-          handleColorChange(colorBeforeErase);
-        }}
+        onSelectBrush={handleSelectBrush}
         onClear={clearCanvas}
         onUndo={undo}
         onChangeBackground={changeBackgroundColor}
@@ -590,7 +593,7 @@ const Paint = (props) => {
         src={submit_btn}
         alt="submit_btn"
       /> */}
-      <SubmitnInfo onSubmitClick={handleSeeSequence}/>
+      <SubmitnInfo onSubmitClick={handleSeeSequence} />
     </div>
     //   <div>
     //     <button className="btn_drawPage_G5h6" onClick={downloadImage}>
