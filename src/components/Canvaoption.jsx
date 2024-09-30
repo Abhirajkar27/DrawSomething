@@ -91,7 +91,7 @@ const CanvaOption = (props) => {
       height="40"
       viewBox="0 0 40 40"
       fill="none"
-      onClick={() => setShowBrushSize(true)}
+      onClick={props.isPenSelected ? () => setShowBrushSize(true) : props.onSelectBrush}
     >
       <path
         fill-rule="evenodd"
@@ -299,7 +299,7 @@ const CanvaOption = (props) => {
     <div className="canva_option_G6h5">
       <BackgroundChange />
       <div style={{ position: "relative" }}>
-        {showBrushSize && (
+        {(props.isPenSelected && showBrushSize) && (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="200"

@@ -549,7 +549,6 @@ const Paint = (props) => {
   }
 
   return (
-    //   <div>Draw {props.selectedWord}</div>
     <div className="CreationLanding_G6h5">
       <img
         onClick={handleBack}
@@ -587,6 +586,7 @@ const Paint = (props) => {
         onUndo={undo}
         onChangeBackground={changeBackgroundColor}
         setWidth={handleLineWidthChange}
+        isPenSelected={isPenSelected}
       />
       {/* <img
         className="btn_drawPage_G5h6"
@@ -595,15 +595,6 @@ const Paint = (props) => {
       /> */}
       <SubmitnInfo onSubmitClick={handleSeeSequence} />
     </div>
-    //   <div>
-    //     <button className="btn_drawPage_G5h6" onClick={downloadImage}>
-    //       Download Image
-    //     </button>
-    //     <button className="btn_drawPage_G5h6" onClick={handleSeeSequence}>
-    //       Submit
-    //     </button>
-    //   </div>
-    //   <div>Draw and send for Challenge</div>
   );
 };
 
