@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import CanvaOption from "../components/Canvaoption";
 import SubmitnInfo from "../components/SubmitnInfo";
+import { width } from "@fortawesome/free-solid-svg-icons/fa0";
 
 const Paint = (props) => {
   const {
@@ -593,6 +594,7 @@ const Paint = (props) => {
         onUndo={undo}
         onChangeBackground={changeBackgroundColor}
         setWidth={handleLineWidthChange}
+        width={lineWidth}
         isPenSelected={isPenSelected}
       />
       {/* <img

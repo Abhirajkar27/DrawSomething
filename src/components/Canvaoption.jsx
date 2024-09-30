@@ -92,7 +92,14 @@ const CanvaOption = (props) => {
       height="40"
       viewBox="0 0 40 40"
       fill="none"
-      onClick={props.isPenSelected ? () => setShowBrushSize(true) : ()=>{setShowEraserSize(false); props.onSelectBrush()}}
+      onClick={
+        props.isPenSelected
+          ? () => setShowBrushSize(true)
+          : () => {
+              setShowEraserSize(false);
+              props.onSelectBrush();
+            }
+      }
     >
       <path
         fill-rule="evenodd"
@@ -133,7 +140,14 @@ const CanvaOption = (props) => {
       height="40"
       viewBox="0 0 40 40"
       fill="none"
-      onClick={!props.isPenSelected ? () => setShowEraserSize(true) : ()=>{setShowBrushSize(false); props.onErase();}}
+      onClick={
+        !props.isPenSelected
+          ? () => setShowEraserSize(true)
+          : () => {
+              setShowBrushSize(false);
+              props.onErase();
+            }
+      }
     >
       <mask
         id="path-1-outside-1_2310_16122"
@@ -296,11 +310,25 @@ const CanvaOption = (props) => {
     </svg>
   );
 
+  const SelCircle = ({ cxw, cyw, rw, onSelectAgain }) => {
+    return (
+      <circle
+        cx={cxw}
+        cy={cyw}
+        r={rw}
+        fill="white"
+        stroke="#2F9EFF"
+        stroke-width="4"
+        onClick={onSelectAgain}
+      />
+    );
+  };
+
   return (
     <div className="canva_option_G6h5">
       <BackgroundChange />
       <div style={{ position: "relative" }}>
-        {(props.isPenSelected && showBrushSize) && (
+        {props.isPenSelected && showBrushSize && (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="200"
@@ -315,56 +343,100 @@ const CanvaOption = (props) => {
               d="M200 10C200 4.47715 195.523 0 190 0H10C4.47715 0 0 4.47715 0 10V47C0 52.5228 4.47716 57 10 57C70 57 130 57 190 57C195.523 57 200 52.5228 200 47V10Z"
               fill="white"
             />
-            <circle
-              onClick={() => {
-                props.onSelectBrush();
-                props.setWidth(2);
-                setShowBrushSize(false);
-              }}
-              cx="25.5"
-              cy="28.5"
-              r="2.5"
-              fill="black"
-            />
-            <circle
-              onClick={() => {
-                props.onSelectBrush();
-                props.setWidth(5);
-                setShowBrushSize(false);
-              }}
-              cx="75"
-              cy="29"
-              r="5"
-              fill="black"
-            />
-            <circle
-              onClick={() => {
-                props.onSelectBrush();
-                props.setWidth(10);
-                setShowBrushSize(false);
-              }}
-              cx="125.5"
-              cy="28.5"
-              r="7.5"
-              fill="black"
-            />
-            <circle
-              onClick={() => {
-                props.onSelectBrush();
-                props.setWidth(15);
-                setShowBrushSize(false);
-              }}
-              cx="175"
-              cy="29"
-              r="10"
-              fill="black"
-            />
+            {props.width === 2 ? (
+              <SelCircle
+                cxw="25"
+                cyw="29"
+                rw="2.5"
+                onSelectAgain={() => {
+                  setShowBrushSize(false);
+                }}
+              />
+            ) : (
+              <circle
+                onClick={() => {
+                  props.onSelectBrush();
+                  props.setWidth(2);
+                  setShowBrushSize(false);
+                }}
+                cx="25.5"
+                cy="28.5"
+                r="2.5"
+                fill="black"
+              />
+            )}
+            {props.width === 5 ? (
+              <SelCircle
+                cxw="75"
+                cyw="29"
+                rw="5"
+                onSelectAgain={() => {
+                  setShowBrushSize(false);
+                }}
+              />
+            ) : (
+              <circle
+                onClick={() => {
+                  props.onSelectBrush();
+                  props.setWidth(5);
+                  setShowBrushSize(false);
+                }}
+                cx="75"
+                cy="29"
+                r="5"
+                fill="black"
+              />
+            )}
+            {props.width === 10 ? (
+              <SelCircle
+                cxw="125"
+                cyw="29"
+                rw="9"
+                onSelectAgain={() => {
+                  setShowBrushSize(false);
+                }}
+              />
+            ) : (
+              <circle
+                onClick={() => {
+                  props.onSelectBrush();
+                  props.setWidth(10);
+                  setShowBrushSize(false);
+                }}
+                cx="125.5"
+                cy="28.5"
+                r="7.5"
+                fill="black"
+              />
+            )}
+            {props.width === 15 ? (
+              <SelCircle
+                cxw="175"
+                cyw="29"
+                rw="12"
+                onSelectAgain={() => {
+                  setShowBrushSize(false);
+                }}
+              />
+            ) : (
+              <circle
+                onClick={() => {
+                  props.onSelectBrush();
+                  props.setWidth(15);
+                  setShowBrushSize(false);
+                }}
+                cx="175"
+                cy="29"
+                r="10"
+                fill="black"
+              />
+            )}
           </svg>
         )}
         <Brush />
       </div>
-      <div  style={{ position: "relative" }}>
-      {(!props.isPenSelected && showEraserSize) && (
+      <div style={{ position: "relative" }}>
+        {!props.isPenSelected && showEraserSize && (
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="200"
@@ -379,49 +451,93 @@ const CanvaOption = (props) => {
               d="M200 10C200 4.47715 195.523 0 190 0H10C4.47715 0 0 4.47715 0 10V47C0 52.5228 4.47716 57 10 57C70 57 130 57 190 57C195.523 57 200 52.5228 200 47V10Z"
               fill="white"
             />
-            <circle
-              onClick={() => {
-                props.setWidth(2);
-                setShowEraserSize(false);
-              }}
-              cx="25.5"
-              cy="28.5"
-              r="2.5"
-              fill="black"
-            />
-            <circle
-              onClick={() => {
-                props.setWidth(5);
-                setShowEraserSize(false);
-              }}
-              cx="75"
-              cy="29"
-              r="5"
-              fill="black"
-            />
-            <circle
-              onClick={() => {
-                props.setWidth(10);
-                setShowEraserSize(false);
-              }}
-              cx="125.5"
-              cy="28.5"
-              r="7.5"
-              fill="black"
-            />
-            <circle
-              onClick={() => {
-                props.setWidth(15);
-                setShowEraserSize(false);
-              }}
-              cx="175"
-              cy="29"
-              r="10"
-              fill="black"
-            />
+            {props.width === 2 ? (
+              <SelCircle
+                cxw="25"
+                cyw="29"
+                rw="2.5"
+                onSelectAgain={() => {
+                  setShowEraserSize(false);
+                }}
+              />
+            ) : (
+              <circle
+                onClick={() => {
+                  props.setWidth(2);
+                  setShowEraserSize(false);
+                }}
+                cx="25.5"
+                cy="28.5"
+                r="2.5"
+                fill="black"
+              />
+            )}
+            {props.width === 5 ? (
+              <SelCircle
+                cxw="75"
+                cyw="29"
+                rw="5"
+                onSelectAgain={() => {
+                  setShowEraserSize(false);
+                }}
+              />
+            ) : (
+              <circle
+                onClick={() => {
+                  props.setWidth(5);
+                  setShowEraserSize(false);
+                }}
+                cx="75"
+                cy="29"
+                r="5"
+                fill="black"
+              />
+            )}
+            {props.width === 10 ? (
+              <SelCircle
+                cxw="125"
+                cyw="29"
+                rw="9"
+                onSelectAgain={() => {
+                  setShowEraserSize(false);
+                }}
+              />
+            ) : (
+              <circle
+                onClick={() => {
+                  props.setWidth(10);
+                  setShowEraserSize(false);
+                }}
+                cx="125.5"
+                cy="28.5"
+                r="7.5"
+                fill="black"
+              />
+            )}
+            {props.width === 15 ? (
+              <SelCircle
+                cxw="175"
+                cyw="29"
+                rw="12"
+                onSelectAgain={() => {
+                  setShowEraserSize(false);
+                }}
+              />
+            ) : (
+              <circle
+                onClick={() => {
+                  props.setWidth(15);
+                  setShowEraserSize(false);
+                }}
+                cx="175"
+                cy="29"
+                r="10"
+                fill="black"
+              />
+            )}
           </svg>
         )}
-      <Eraser />
+        <Eraser />
       </div>
       <UndoDrawing />
       <ClearBoard />
