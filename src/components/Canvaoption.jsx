@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Canvaoption.css";
 const CanvaOption = (props) => {
   const [showBrushSize, setShowBrushSize] = useState(false);
+  const [showEraserSize, setShowEraserSize] = useState(false);
   const BackgroundChange = () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -132,7 +133,7 @@ const CanvaOption = (props) => {
       height="40"
       viewBox="0 0 40 40"
       fill="none"
-      onClick={props.onErase}
+      onClick={!props.isPenSelected ? () => setShowEraserSize(true) : props.onErase}
     >
       <mask
         id="path-1-outside-1_2310_16122"
@@ -362,7 +363,66 @@ const CanvaOption = (props) => {
         )}
         <Brush />
       </div>
+      <div  style={{ position: "relative" }}>
+      {(!props.isPenSelected && showEraserSize) && (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="200"
+            height="57"
+            viewBox="0 0 200 57"
+            fill="none"
+            className="brush_Sizes_G6h5"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M200 10C200 4.47715 195.523 0 190 0H10C4.47715 0 0 4.47715 0 10V47C0 52.5228 4.47716 57 10 57C70 57 130 57 190 57C195.523 57 200 52.5228 200 47V10Z"
+              fill="white"
+            />
+            <circle
+              onClick={() => {
+                props.setWidth(2);
+                setShowEraserSize(false);
+              }}
+              cx="25.5"
+              cy="28.5"
+              r="2.5"
+              fill="black"
+            />
+            <circle
+              onClick={() => {
+                props.setWidth(5);
+                setShowEraserSize(false);
+              }}
+              cx="75"
+              cy="29"
+              r="5"
+              fill="black"
+            />
+            <circle
+              onClick={() => {
+                props.setWidth(10);
+                setShowEraserSize(false);
+              }}
+              cx="125.5"
+              cy="28.5"
+              r="7.5"
+              fill="black"
+            />
+            <circle
+              onClick={() => {
+                props.setWidth(15);
+                setShowEraserSize(false);
+              }}
+              cx="175"
+              cy="29"
+              r="10"
+              fill="black"
+            />
+          </svg>
+        )}
       <Eraser />
+      </div>
       <UndoDrawing />
       <ClearBoard />
     </div>

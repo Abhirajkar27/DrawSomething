@@ -170,6 +170,16 @@ const Paint = (props) => {
     };
   };
 
+  const handleErase = () => {
+    if (isPenSelected) {
+      setColorBeforeErase(color);
+      handleColorChange("white");
+      setIsPenSelected(false);
+    } else {
+      console.log("changing Width!!");
+    }
+  };
+
   const handleColorChange = (color) => {
     if (isPenSelected) {
       setColor(color);
@@ -181,10 +191,11 @@ const Paint = (props) => {
     if (isPenSelected) {
       setColor(color);
       contextRef.current.strokeStyle = color;
-    }else{
-    setIsPenSelected(true);
-    setColor(colorBeforeErase);
-    contextRef.current.strokeStyle = colorBeforeErase;}
+    } else {
+      setIsPenSelected(true);
+      setColor(colorBeforeErase);
+      contextRef.current.strokeStyle = colorBeforeErase;
+    }
   };
 
   const handleLineWidthChange = (width) => {
@@ -576,11 +587,7 @@ const Paint = (props) => {
       </div>
       <ColorPallet onChangeColor={handleColorChange} selColor={color} />
       <CanvaOption
-        onErase={() => {
-          setColorBeforeErase(color);
-          handleColorChange("white");
-          setIsPenSelected(false);
-        }}
+        onErase={handleErase}
         onSelectBrush={handleSelectBrush}
         onClear={clearCanvas}
         onUndo={undo}
