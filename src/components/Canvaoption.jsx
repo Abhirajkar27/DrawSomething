@@ -4,6 +4,7 @@ const CanvaOption = (props) => {
   const [showBrushSize, setShowBrushSize] = useState(false);
   const [showEraserSize, setShowEraserSize] = useState(false);
   const [isClosingE, setIsClosingE] = useState(false);
+  const [isClosingB, setIsClosingB] = useState(false);
   const FillColor = () => (
     <svg
       className={props.isFillSelected ? "opt_selected" : ""}
@@ -350,7 +351,9 @@ const CanvaOption = (props) => {
             height="57"
             viewBox="0 0 200 57"
             fill="none"
-            className="brush_Sizes_G6h5"
+            className={`brush_Sizes_G6h5 ${
+              isClosingB ? "close_Effect_g6" : "open_Effect_g6"
+            }`}
           >
             <path
               fill-rule="evenodd"
@@ -364,7 +367,11 @@ const CanvaOption = (props) => {
                 cyw="29"
                 rw="2.5"
                 onSelectAgain={() => {
-                  setShowBrushSize(false);
+                  setIsClosingB(true);
+                  setTimeout(() => {
+                    setIsClosingB(false);
+                    setShowBrushSize(false);
+                  }, 140);
                 }}
               />
             ) : (
@@ -372,7 +379,11 @@ const CanvaOption = (props) => {
                 onClick={() => {
                   props.onSelectBrush();
                   props.setWidth(2);
-                  setShowBrushSize(false);
+                  setIsClosingB(true);
+                  setTimeout(() => {
+                    setIsClosingB(false);
+                    setShowBrushSize(false);
+                  }, 140);
                 }}
                 cx="25.5"
                 cy="28.5"
@@ -386,7 +397,11 @@ const CanvaOption = (props) => {
                 cyw="29"
                 rw="5"
                 onSelectAgain={() => {
-                  setShowBrushSize(false);
+                  setIsClosingB(true);
+                  setTimeout(() => {
+                    setIsClosingB(false);
+                    setShowBrushSize(false);
+                  }, 140);
                 }}
               />
             ) : (
@@ -394,7 +409,11 @@ const CanvaOption = (props) => {
                 onClick={() => {
                   props.onSelectBrush();
                   props.setWidth(5);
-                  setShowBrushSize(false);
+                  setIsClosingB(true);
+                  setTimeout(() => {
+                    setIsClosingB(false);
+                    setShowBrushSize(false);
+                  }, 140);
                 }}
                 cx="75"
                 cy="29"
@@ -408,7 +427,11 @@ const CanvaOption = (props) => {
                 cyw="29"
                 rw="9"
                 onSelectAgain={() => {
-                  setShowBrushSize(false);
+                  setIsClosingB(true);
+                  setTimeout(() => {
+                    setIsClosingB(false);
+                    setShowBrushSize(false);
+                  }, 140);
                 }}
               />
             ) : (
@@ -416,7 +439,11 @@ const CanvaOption = (props) => {
                 onClick={() => {
                   props.onSelectBrush();
                   props.setWidth(10);
-                  setShowBrushSize(false);
+                  setIsClosingB(true);
+                  setTimeout(() => {
+                    setIsClosingB(false);
+                    setShowBrushSize(false);
+                  }, 140);
                 }}
                 cx="125.5"
                 cy="28.5"
@@ -430,7 +457,11 @@ const CanvaOption = (props) => {
                 cyw="29"
                 rw="12"
                 onSelectAgain={() => {
-                  setShowBrushSize(false);
+                  setIsClosingB(true);
+                  setTimeout(() => {
+                    setIsClosingB(false);
+                    setShowBrushSize(false);
+                  }, 140);
                 }}
               />
             ) : (
@@ -438,7 +469,11 @@ const CanvaOption = (props) => {
                 onClick={() => {
                   props.onSelectBrush();
                   props.setWidth(15);
-                  setShowBrushSize(false);
+                  setIsClosingB(true);
+                  setTimeout(() => {
+                    setIsClosingB(false);
+                    setShowBrushSize(false);
+                  }, 140);
                 }}
                 cx="175"
                 cy="29"
