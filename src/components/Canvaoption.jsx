@@ -367,11 +367,13 @@ const CanvaOption = (props) => {
                 cyw="29"
                 rw="2.5"
                 onSelectAgain={() => {
-                  setIsClosingB(true);
+                  setTimeout(() => {
+                    setIsClosingB(true);
+                  }, 400);
                   setTimeout(() => {
                     setIsClosingB(false);
                     setShowBrushSize(false);
-                  }, 140);
+                  }, 540);
                 }}
               />
             ) : (
@@ -379,11 +381,13 @@ const CanvaOption = (props) => {
                 onClick={() => {
                   props.onSelectBrush();
                   props.setWidth(2);
-                  setIsClosingB(true);
+                  setTimeout(() => {
+                    setIsClosingB(true);
+                  }, 400);
                   setTimeout(() => {
                     setIsClosingB(false);
                     setShowBrushSize(false);
-                  }, 140);
+                  }, 540);
                 }}
                 cx="25.5"
                 cy="28.5"
@@ -397,11 +401,13 @@ const CanvaOption = (props) => {
                 cyw="29"
                 rw="5"
                 onSelectAgain={() => {
-                  setIsClosingB(true);
+                  setTimeout(() => {
+                    setIsClosingB(true);
+                  }, 400);
                   setTimeout(() => {
                     setIsClosingB(false);
                     setShowBrushSize(false);
-                  }, 140);
+                  }, 540);
                 }}
               />
             ) : (
@@ -409,11 +415,13 @@ const CanvaOption = (props) => {
                 onClick={() => {
                   props.onSelectBrush();
                   props.setWidth(5);
-                  setIsClosingB(true);
+                  setTimeout(() => {
+                    setIsClosingB(true);
+                  }, 400);
                   setTimeout(() => {
                     setIsClosingB(false);
                     setShowBrushSize(false);
-                  }, 140);
+                  }, 540);
                 }}
                 cx="75"
                 cy="29"
@@ -427,11 +435,13 @@ const CanvaOption = (props) => {
                 cyw="29"
                 rw="9"
                 onSelectAgain={() => {
-                  setIsClosingB(true);
+                  setTimeout(() => {
+                    setIsClosingB(true);
+                  }, 400);
                   setTimeout(() => {
                     setIsClosingB(false);
                     setShowBrushSize(false);
-                  }, 140);
+                  }, 540);
                 }}
               />
             ) : (
@@ -439,11 +449,13 @@ const CanvaOption = (props) => {
                 onClick={() => {
                   props.onSelectBrush();
                   props.setWidth(10);
-                  setIsClosingB(true);
+                  setTimeout(() => {
+                    setIsClosingB(true);
+                  }, 400);
                   setTimeout(() => {
                     setIsClosingB(false);
                     setShowBrushSize(false);
-                  }, 140);
+                  }, 540);
                 }}
                 cx="125.5"
                 cy="28.5"
@@ -457,11 +469,13 @@ const CanvaOption = (props) => {
                 cyw="29"
                 rw="12"
                 onSelectAgain={() => {
-                  setIsClosingB(true);
+                  setTimeout(() => {
+                    setIsClosingB(true);
+                  }, 400);
                   setTimeout(() => {
                     setIsClosingB(false);
                     setShowBrushSize(false);
-                  }, 140);
+                  }, 540);
                 }}
               />
             ) : (
@@ -469,11 +483,13 @@ const CanvaOption = (props) => {
                 onClick={() => {
                   props.onSelectBrush();
                   props.setWidth(15);
-                  setIsClosingB(true);
+                  setTimeout(() => {
+                    setIsClosingB(true);
+                  }, 400);
                   setTimeout(() => {
                     setIsClosingB(false);
                     setShowBrushSize(false);
-                  }, 140);
+                  }, 540);
                 }}
                 cx="175"
                 cy="29"
@@ -509,22 +525,26 @@ const CanvaOption = (props) => {
                 cyw="29"
                 rw="2.5"
                 onSelectAgain={() => {
-                  setIsClosingE(true);
+                  setTimeout(() => {
+                    setIsClosingE(true);
+                  }, 400);
                   setTimeout(() => {
                     setIsClosingE(false);
                     setShowEraserSize(false);
-                  }, 140);
+                  }, 540);
                 }}
               />
             ) : (
               <circle
                 onClick={() => {
                   props.setWidth(2);
-                  setIsClosingE(true);
+                  setTimeout(() => {
+                    setIsClosingE(true);
+                  }, 400);
                   setTimeout(() => {
                     setIsClosingE(false);
                     setShowEraserSize(false);
-                  }, 140);
+                  }, 540);
                 }}
                 cx="25.5"
                 cy="28.5"
@@ -538,22 +558,26 @@ const CanvaOption = (props) => {
                 cyw="29"
                 rw="5"
                 onSelectAgain={() => {
-                  setIsClosingE(true);
+                  setTimeout(() => {
+                    setIsClosingE(true);
+                  }, 400);
                   setTimeout(() => {
                     setIsClosingE(false);
                     setShowEraserSize(false);
-                  }, 140);
+                  }, 540);
                 }}
               />
             ) : (
               <circle
                 onClick={() => {
                   props.setWidth(5);
-                  setIsClosingE(true);
+                  setTimeout(() => {
+                    setIsClosingE(true);
+                  }, 400);
                   setTimeout(() => {
                     setIsClosingE(false);
                     setShowEraserSize(false);
-                  }, 140);
+                  }, 540);
                 }}
                 cx="75"
                 cy="29"
@@ -567,22 +591,26 @@ const CanvaOption = (props) => {
                 cyw="29"
                 rw="9"
                 onSelectAgain={() => {
-                  setIsClosingE(true);
+                  setTimeout(() => {
+                    setIsClosingE(true);
+                  }, 400);
                   setTimeout(() => {
                     setIsClosingE(false);
                     setShowEraserSize(false);
-                  }, 140);
+                  }, 540);
                 }}
               />
             ) : (
               <circle
                 onClick={() => {
                   props.setWidth(10);
-                  setIsClosingE(true);
+                  setTimeout(() => {
+                    setIsClosingE(true);
+                  }, 400);
                   setTimeout(() => {
                     setIsClosingE(false);
                     setShowEraserSize(false);
-                  }, 140);
+                  }, 540);
                 }}
                 cx="125.5"
                 cy="28.5"
@@ -596,22 +624,26 @@ const CanvaOption = (props) => {
                 cyw="29"
                 rw="12"
                 onSelectAgain={() => {
-                  setIsClosingE(true);
+                  setTimeout(() => {
+                    setIsClosingE(true);
+                  }, 400);
                   setTimeout(() => {
                     setIsClosingE(false);
                     setShowEraserSize(false);
-                  }, 140);
+                  }, 540);
                 }}
               />
             ) : (
               <circle
                 onClick={() => {
                   props.setWidth(15);
-                  setIsClosingE(true);
+                  setTimeout(() => {
+                    setIsClosingE(true);
+                  }, 400);
                   setTimeout(() => {
                     setIsClosingE(false);
                     setShowEraserSize(false);
-                  }, 140);
+                  }, 540);
                 }}
                 cx="175"
                 cy="29"
