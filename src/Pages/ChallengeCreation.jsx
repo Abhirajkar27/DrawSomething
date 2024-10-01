@@ -237,9 +237,12 @@ const Paint = (props) => {
     if (isFillSelected) {
       setIsFillSelected(false);
     }
-    if (isPenSelected) {
+    if (isPenSelected && !isFillSelected) {
       console.log("color before", color);
       setColorBeforeErase(color);
+      handleColorChange("white");
+      setIsPenSelected(false);
+    } else if (isPenSelected && isFillSelected) {
       handleColorChange("white");
       setIsPenSelected(false);
     } else {
@@ -267,6 +270,7 @@ const Paint = (props) => {
       contextRef.current.strokeStyle = color;
     } else {
       setIsPenSelected(true);
+      console.log("setting color before");
       setColor(colorBeforeErase);
       contextRef.current.strokeStyle = colorBeforeErase;
     }
