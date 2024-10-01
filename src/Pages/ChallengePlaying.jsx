@@ -1,12 +1,15 @@
 import React, { useContext, useRef, useState } from "react";
 import { GameContext } from "../context/context";
+import WordGuess from "../components/WordGuess";
 
 const ChallengePlaying = () => {
-  const { imgString, challengeTopic, words, videoURL } = useContext(GameContext);
+  const { imgString, challengeTopic, words, videoURL } =
+    useContext(GameContext);
   const [selectedWord, setSelectedWord] = useState("");
   const [isWinner, setIsWinner] = useState(false);
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false); 
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const videoRef = useRef(null);
+  const wor= "APPLE"
 
   // Check if the selected word is correct
   const handleWordSelection = (word) => {
@@ -22,7 +25,7 @@ const ChallengePlaying = () => {
   const handleVideoPlay = () => {
     if (videoRef.current) {
       videoRef.current.play();
-      setIsVideoPlaying(true); 
+      setIsVideoPlaying(true);
     }
   };
 
@@ -49,8 +52,7 @@ const ChallengePlaying = () => {
         )}
       </div>
 
-      {/* Words List */}
-      <div style={styles.wordsContainer}>
+      {/* <div style={styles.wordsContainer}>
         <h3>Select the correct word:</h3>
         <div style={styles.wordsList}>
           {words.map((word, index) => (
@@ -64,10 +66,9 @@ const ChallengePlaying = () => {
             </button>
           ))}
         </div>
-
-        {/* Win Message */}
         {isWinner && <h3 style={styles.winMessage}>You Win!</h3>}
-      </div>
+      </div> */}
+      <WordGuess word={wor}/>
     </div>
   );
 };

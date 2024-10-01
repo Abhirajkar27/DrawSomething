@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 const WordGuess = ({ word }) => {
-  const [guess, setGuess] = useState(Array(word.length).fill(''));
+  const [guess, setGuess] = useState(Array(word.length).fill(""));
   const [letterUsed, setLetterUsed] = useState([]);
   const [gameStatus, setGameStatus] = useState(null);
+  const [clickedIndices, setClickedIndices] = useState([]);
 
   useEffect(() => {
     if (word.length > 8) {
-      console.error('Word must be 8 letters or less');
+      console.error("Word must be 8 letters or less");
       return;
     }
 
@@ -19,8 +20,8 @@ const WordGuess = ({ word }) => {
       return array;
     };
 
-    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const wordLetters = word.toUpperCase().split('');
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const wordLetters = word.toUpperCase().split("");
     const randomLetters = Array(word.length)
       .fill()
       .map(() => alphabet[Math.floor(Math.random() * alphabet.length)]);
@@ -28,17 +29,20 @@ const WordGuess = ({ word }) => {
     setLetterUsed(shuffleArray([...wordLetters, ...randomLetters]));
   }, [word]);
 
-  const handleLetterClick = (letter) => {
+  const handleLetterClick = (letter, index) => {
     const newGuess = [...guess];
-    const emptyIndex = newGuess.findIndex(l => l === '');
+    if (!clickedIndices.includes(index)) {
+      setClickedIndices([...clickedIndices, index]); 
+    }
+    const emptyIndex = newGuess.findIndex((l) => l === "");
     if (emptyIndex !== -1) {
       newGuess[emptyIndex] = letter;
       setGuess(newGuess);
 
-      if (newGuess.join('') === word.toUpperCase()) {
-        setGameStatus('correct');
-      } else if (!newGuess.includes('')) {
-        setGameStatus('wrong');
+      if (newGuess.join("") === word.toUpperCase()) {
+        setGameStatus("correct");
+      } else if (!newGuess.includes("")) {
+        setGameStatus("wrong");
       }
     }
   };
@@ -56,8 +60,8 @@ const WordGuess = ({ word }) => {
         {letterUsed.map((letter, index) => (
           <button
             key={index}
-            onClick={() => handleLetterClick(letter)}
-            className="letter-button"
+            onClick={() => handleLetterClick(letter, index)}
+            className={`letter-button ${clickedIndices.includes(index) ? 'letter-button-done' : ''}`}
           >
             {letter}
           </button>
@@ -65,7 +69,7 @@ const WordGuess = ({ word }) => {
       </div>
       {gameStatus && (
         <div className={`game-status ${gameStatus}`}>
-          {gameStatus === 'correct' ? 'Correct!' : 'Wrong!'}
+          {gameStatus === "correct" ? "Correct!" : "Wrong!"}
         </div>
       )}
       <style jsx>{`
@@ -107,6 +111,9 @@ const WordGuess = ({ word }) => {
           font-size: 18px;
           font-weight: bold;
           cursor: pointer;
+        }
+        .letter-button-done {
+          visibility: hidden;
         }
         .letter-button:hover {
           background-color: #357ae8;
