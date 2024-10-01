@@ -46,7 +46,7 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 2.3vw;
 }
 
 .letter-button {
@@ -90,4 +90,16 @@
 .game-status.wrong {
   background-color: #f44336;
   color: white;
+}
+
+.guess_manage_btn_cont_G6{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  gap: 3vw;
+  margin:2.2vh;
+}
+.guess_manage_btn_G6{
+  height: 5.6vh;
 }

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./WordGuess.css";
+import shuffle_btn from "../assets/img/SHUFFLE.png";
+import clear_btn from "../assets/img/CLEAR.png";
 
 const WordGuess = ({ word }) => {
   const [guess, setGuess] = useState(Array(word.length).fill(""));
@@ -24,6 +26,20 @@ const WordGuess = ({ word }) => {
 
     setLetterUsed(shuffleArray([...wordLetters, ...randomLetters]));
   }, [word]);
+
+  function handleShuffleArray() {
+    const shuffledArray = [...letterUsed]; 
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+    }
+    setLetterUsed(shuffledArray); 
+  }
+  function handleClearGuess() {
+    setGuess(Array(word.length).fill(""));
+    setClickedIndices([]);
+    setGameStatus(null);
+  }
 
   const handleLetterClick = (letter, index) => {
     const newGuess = [...guess];
@@ -84,6 +100,10 @@ const WordGuess = ({ word }) => {
           {gameStatus === "correct" ? "Correct!" : "Wrong! Try Again!"}
         </div>
       )}
+      <div className="guess_manage_btn_cont_G6">
+        <img onClick={handleShuffleArray} className="guess_manage_btn_G6" src={shuffle_btn} />
+        <img onClick={handleClearGuess} className="guess_manage_btn_G6" src={clear_btn} />
+      </div>
     </div>
   );
 };
