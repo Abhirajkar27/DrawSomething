@@ -28,13 +28,26 @@ const WordGuess = ({ word }) => {
   }, [word]);
 
   function handleShuffleArray() {
-    const shuffledArray = [...letterUsed]; 
-    for (let i = shuffledArray.length - 1; i > 0; i--) {
+    const newLetterUsed = [...letterUsed];
+    const unclickedLetters = newLetterUsed.filter(
+      (_, index) => !clickedIndices.includes(index)
+    );
+    for (let i = unclickedLetters.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+      [unclickedLetters[i], unclickedLetters[j]] = [
+        unclickedLetters[j],
+        unclickedLetters[i],
+      ];
     }
-    setLetterUsed(shuffledArray); 
+    let unclickedIndex = 0;
+    for (let i = 0; i < newLetterUsed.length; i++) {
+      if (!clickedIndices.includes(i)) {
+        newLetterUsed[i] = unclickedLetters[unclickedIndex++];
+      }
+    }
+    setLetterUsed(newLetterUsed);
   }
+
   function handleClearGuess() {
     setGuess(Array(word.length).fill(""));
     setClickedIndices([]);
@@ -101,8 +114,16 @@ const WordGuess = ({ word }) => {
         </div>
       )}
       <div className="guess_manage_btn_cont_G6">
-        <img onClick={handleShuffleArray} className="guess_manage_btn_G6" src={shuffle_btn} />
-        <img onClick={handleClearGuess} className="guess_manage_btn_G6" src={clear_btn} />
+        <img
+          onClick={handleShuffleArray}
+          className="guess_manage_btn_G6"
+          src={shuffle_btn}
+        />
+        <img
+          onClick={handleClearGuess}
+          className="guess_manage_btn_G6"
+          src={clear_btn}
+        />
       </div>
     </div>
   );
