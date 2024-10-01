@@ -187,6 +187,18 @@ const CanvaOption = (props) => {
           height="40"
           viewBox="0 0 40 40"
           fill="none"
+          onClick={
+            props.isPenSelected
+              ? () => setShowBrushSize(true)
+              : () => {
+                  setIsClosingE(true);
+                  props.onSelectBrush();
+                  setTimeout(() => {
+                    setIsClosingE(false);
+                    setShowEraserSize(false);
+                  }, 140);
+                }
+          }
         >
           <path
             fill-rule="evenodd"
@@ -287,6 +299,16 @@ const CanvaOption = (props) => {
           height="40"
           viewBox="0 0 40 40"
           fill="none"
+          onClick={
+            !props.isPenSelected
+              ? () => {
+                  setShowEraserSize(true);
+                }
+              : () => {
+                  setShowBrushSize(false);
+                  props.onErase();
+                }
+          }
         >
           <mask
             id="path-1-outside-1_2458_16823"
