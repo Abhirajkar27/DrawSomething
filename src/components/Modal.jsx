@@ -1,5 +1,7 @@
 import React from "react";
 import './Modal.css';
+import conf_giveUp from '../assets/img/Give_Up_conf.png';
+import no_btn from '../assets/img/No_btn.png';
 const Modal = ({ showModal, closeModal }) => {
   if (!showModal) return null;
 
@@ -15,10 +17,8 @@ const Modal = ({ showModal, closeModal }) => {
         <span>Are you sure you want to give up?</span>
         <p>Giving up will reset the streak</p>
         <div className="modal-buttons_G6">
-          <button className="no-button_G6" onClick={closeModal}>
-            No
-          </button>
-          <button className="giveup-button_G6">Give up</button>
+          <img src={no_btn} onClick={closeModal} className="modal_btn_g6"/>
+          <img src={conf_giveUp} className="modal_btn_g6"/>
         </div>
       </div>
     </div>

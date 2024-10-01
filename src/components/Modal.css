@@ -16,7 +16,12 @@
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   text-align: center;
-  width: 300px;
+  width: 66vw;
+  height: 22vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 .modal-container_G6 span {
   color: #000;
@@ -40,8 +45,10 @@
 
 .modal-buttons_G6 {
   display: flex;
-  justify-content: space-around;
-  margin-top: 20px;
+  justify-content: center;
+  align-items: center;
+  gap: 4vw;
+  margin-top: 1vh;
 }
 
 .no-button_G6,
@@ -52,12 +59,6 @@
   font-size: 16px;
 }
 
-.no-button_G6 {
-  background-color: #ffc107;
-  color: white;
-}
-
-.giveup-button_G6 {
-  background-color: #dc3545;
-  color: white;
+.modal_btn_g6{
+    height: 6vh;
 }
