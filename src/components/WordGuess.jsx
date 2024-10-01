@@ -47,6 +47,22 @@ const WordGuess = ({ word }) => {
     }
   };
 
+  // Reset the game when the user guesses wrong
+  const resetGame = () => {
+    setGuess(Array(word.length).fill(""));  // Reset the guess boxes
+    setClickedIndices([]);  // Reset clicked indices
+    setGameStatus(null);  // Clear the game status
+  };
+
+  // Handle game status change to reset after a wrong guess
+  useEffect(() => {
+    if (gameStatus === "wrong") {
+      setTimeout(() => {
+        resetGame();  // Reset the game after a short delay
+      }, 2000);  // Adjust the delay as needed
+    }
+  }, [gameStatus]);
+
   return (
     <div className="word-guess-game">
       <div className="guess-boxes">
@@ -62,6 +78,7 @@ const WordGuess = ({ word }) => {
             key={index}
             onClick={() => handleLetterClick(letter, index)}
             className={`letter-button ${clickedIndices.includes(index) ? 'letter-button-done' : ''}`}
+            disabled={clickedIndices.includes(index)}  // Disable the button after it's clicked
           >
             {letter}
           </button>
@@ -69,7 +86,7 @@ const WordGuess = ({ word }) => {
       </div>
       {gameStatus && (
         <div className={`game-status ${gameStatus}`}>
-          {gameStatus === "correct" ? "Correct!" : "Wrong!"}
+          {gameStatus === "correct" ? "Correct!" : "Wrong! Try Again!"}
         </div>
       )}
       <style jsx>{`
