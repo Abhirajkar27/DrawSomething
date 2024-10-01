@@ -2,6 +2,7 @@ import React, { useContext, useRef, useState } from "react";
 import { GameContext } from "../context/context";
 import WordGuess from "../components/WordGuess";
 import './ChallengePlaying.css';
+import SubmitnInfo from "../components/SubmitnInfo";
 
 const ChallengePlaying = () => {
   const { imgString, challengeTopic, words, videoURL } = useContext(GameContext);
@@ -41,6 +42,9 @@ const ChallengePlaying = () => {
         )}
       </div>
       <WordGuess word={wor} />
+      <SubmitnInfo isGiveUp={true} onSubmitClick={()=>{
+        console.log(9);
+      }} />
     </div>
   );
 };

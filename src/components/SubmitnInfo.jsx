@@ -1,12 +1,11 @@
 import React from "react";
 import submit_btn from "../assets/img/Submit.png";
-import './SubmitnInfo.css';
+import GiveUp_btn from "../assets/img/Give_up.png";
+import "./SubmitnInfo.css";
 
 const SubmitnInfo = (props) => {
   return (
-    <div
-      className="submitInfo_wrapper"
-    >
+    <div className="submitInfo_wrapper">
       <div
         style={{
           position: "absolute",
@@ -14,14 +13,23 @@ const SubmitnInfo = (props) => {
           transform: "translateX(-50%)",
         }}
       >
-        <img
-          onClick={props.onSubmitClick}
-          className="startbtn_G6h5"
-          src={submit_btn}
-          alt="submit_btn"
-        />
+        {props.isGiveUp ? (
+          <img
+            onClick={props.onSubmitClick}
+            className="startbtn_G6h5"
+            src={GiveUp_btn}
+            alt="GiveUp_btn"
+          />
+        ) : (
+          <img
+            onClick={props.onSubmitClick}
+            className="startbtn_G6h5"
+            src={submit_btn}
+            alt="submit_btn"
+          />
+        )}
       </div>
-      <div style={{ marginLeft: "auto", marginRight:"5.5vw"}}>
+      <div style={{ marginLeft: "auto", marginRight: "5.5vw" }}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="32"
