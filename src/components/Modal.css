@@ -1,0 +1,63 @@
+.modal-background_G6 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-container_G6 {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  width: 300px;
+}
+.modal-container_G6 span {
+  color: #000;
+  text-align: center;
+  font-family: Gilroy;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.modal-container_G6 p {
+  color: #8d8d8d;
+  text-align: center;
+  font-family: Gilroy;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.modal-buttons_G6 {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.no-button_G6,
+.giveup-button_G6 {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.no-button_G6 {
+  background-color: #ffc107;
+  color: white;
+}
+
+.giveup-button_G6 {
+  background-color: #dc3545;
+  color: white;
+}
