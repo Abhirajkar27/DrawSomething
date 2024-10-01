@@ -20,6 +20,9 @@ const ChallengePlaying = () => {
 
   return (
     <div className="challenge_Play_container_P2G6">
+      <div className="instr_P2_G6h5">
+      Guess Rahul Mathews drawing!
+      </div>
       {/* <img src={imgString} alt="Challenge" className='image_P2G6' /> */}
       <div className="videoContainer_P2G6">
         {videoURL && (
