@@ -8,6 +8,8 @@ const WordGuess = ({ word }) => {
   const [letterUsed, setLetterUsed] = useState([]);
   const [gameStatus, setGameStatus] = useState(null);
   const [clickedIndices, setClickedIndices] = useState([]);
+  const [isGuessedWrong, setIsGuessedWrong] = useState(false);
+  const [isGuessedCorrect, setIsGuessedCorrect] = useState(false);
 
   useEffect(() => {
     const shuffleArray = (array) => {
@@ -65,8 +67,10 @@ const WordGuess = ({ word }) => {
       setGuess(newGuess);
 
       if (newGuess.join("") === word.toUpperCase()) {
+        setIsGuessedCorrect(true);
         setGameStatus("correct");
       } else if (!newGuess.includes("")) {
+        setIsGuessedWrong(true);
         setGameStatus("wrong");
       }
     }
@@ -81,6 +85,7 @@ const WordGuess = ({ word }) => {
   useEffect(() => {
     if (gameStatus === "wrong") {
       setTimeout(() => {
+        setIsGuessedWrong(false);
         resetGame();
       }, 2000);
     }
@@ -90,7 +95,12 @@ const WordGuess = ({ word }) => {
     <div className="word-guess-game">
       <div className="guess-boxes">
         {guess.map((letter, index) => (
-          <div key={index} className="guess-box">
+          <div
+            key={index}
+            className={`guess-box ${
+              isGuessedCorrect ? "letter-button-correct" : ""
+            } ${isGuessedWrong ? "letter-button-wrong" : ""}`}
+          >
             {letter}
           </div>
         ))}

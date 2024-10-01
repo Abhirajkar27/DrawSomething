@@ -68,6 +68,16 @@
   line-height: normal;
 }
 
+.letter-button-wrong {
+  background: #ffdcdc;
+  color: #FF1F23;
+}
+
+.letter-button-correct {
+  background: #edffdc;
+  color: #54FF79;
+}
+
 .letter-button-done {
   visibility: hidden;
 }
@@ -92,14 +102,14 @@
   color: white;
 }
 
-.guess_manage_btn_cont_G6{
+.guess_manage_btn_cont_G6 {
   display: flex;
   align-items: center;
   flex-direction: row;
   justify-content: center;
   gap: 3vw;
-  margin:2.2vh;
+  margin: 2.2vh;
 }
-.guess_manage_btn_G6{
+.guess_manage_btn_G6 {
   height: 5.6vh;
 }
