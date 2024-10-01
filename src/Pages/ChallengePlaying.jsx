@@ -9,7 +9,7 @@ const ChallengePlaying = () => {
   const [isWinner, setIsWinner] = useState(false);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const videoRef = useRef(null);
-  const wor = "APPLE";
+  const wor = "SPACINGS";
 
   const handleVideoPlay = () => {
     if (videoRef.current) {
