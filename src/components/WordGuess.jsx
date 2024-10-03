@@ -57,6 +57,9 @@ const WordGuess = ({ word }) => {
   }
 
   function handleGuessBoxClick(index) {
+    if(isGuessedWrong===true) {
+      setIsGuessedWrong(false);
+    }
     if (!guess[index]) return; 
   
     const updatedGuess = [...guess];
@@ -105,8 +108,7 @@ const WordGuess = ({ word }) => {
   useEffect(() => {
     if (gameStatus === "wrong") {
       setTimeout(() => {
-        setIsGuessedWrong(false);
-        resetGame();
+        setGameStatus(null);
       }, 2000);
     }
   }, [gameStatus]);

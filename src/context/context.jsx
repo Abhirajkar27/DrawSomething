@@ -7,7 +7,7 @@ const GameProvider = ({ children }) => {
   const [imgString, setImgString] = useState(null);
   const [isDrawn, setIsDrawn] = useState(false);
   const [playTime, setPlayTime] = useState(0);
-  const [isChallenge, setIsChallenge] = useState(false);
+  const [isChallenge, setIsChallenge] = useState(true);
   const [sender, setSender] = useState("Rahul Mathews");
   const [selectedWord, setSelectedWord] = useState("");
   const [challengeTopic, setChallengeTopic] = useState();
