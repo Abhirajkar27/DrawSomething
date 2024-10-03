@@ -10,6 +10,10 @@ const Modal = ({ showModal, closeModal, onConfirm }) => {
       closeModal();
     }
   };
+  const handleGiveUp = () => {
+    onConfirm(false);
+    closeModal();
+  };
 
   return (
     <div className="modal-background_G6" onClick={handleClose}>
@@ -20,7 +24,7 @@ const Modal = ({ showModal, closeModal, onConfirm }) => {
           <img src={no_btn} onClick={closeModal} className="modal_btn_g6" />
           <img
             src={conf_giveUp}
-            onClick={() => onConfirm("ChallengeModeP2")}
+            onClick={handleGiveUp}
             className="modal_btn_g6"
           />
         </div>

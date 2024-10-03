@@ -3,7 +3,7 @@ import "./WordGuess.css";
 import shuffle_btn from "../assets/img/SHUFFLE.png";
 import clear_btn from "../assets/img/CLEAR.png";
 
-const WordGuess = ({ word }) => {
+const WordGuess = ({ word, isWinner, setIsWinner }) => {
   const [guess, setGuess] = useState(Array(word.length).fill(""));
   const [letterUsed, setLetterUsed] = useState([]);
   const [gameStatus, setGameStatus] = useState(null);
@@ -57,27 +57,26 @@ const WordGuess = ({ word }) => {
   }
 
   function handleGuessBoxClick(index) {
-    if(isGuessedWrong===true) {
+    if (isGuessedWrong === true) {
       setIsGuessedWrong(false);
     }
-    if (!guess[index]) return; 
-  
+    if (!guess[index]) return;
+
     const updatedGuess = [...guess];
     const updatedLetterUsed = [...letterUsed];
-    
-    const currentIndice = clickedIndices[0]; 
-    if (currentIndice !== undefined) { 
+
+    const currentIndice = clickedIndices[0];
+    if (currentIndice !== undefined) {
       updatedLetterUsed[currentIndice] = guess[index];
-      setLetterUsed(updatedLetterUsed); 
-      
+      setLetterUsed(updatedLetterUsed);
+
       const updatedClickedIndices = clickedIndices.slice(1); //this slice method is used to remove 1st element from array...
-      setClickedIndices(updatedClickedIndices); 
+      setClickedIndices(updatedClickedIndices);
     }
-  
-    updatedGuess[index] = ""; 
-    setGuess(updatedGuess); 
+
+    updatedGuess[index] = "";
+    setGuess(updatedGuess);
   }
-  
 
   const handleLetterClick = (letter, index) => {
     const newGuess = [...guess];
@@ -92,6 +91,9 @@ const WordGuess = ({ word }) => {
       if (newGuess.join("") === word.toUpperCase()) {
         setIsGuessedCorrect(true);
         setGameStatus("correct");
+        setTimeout(() => {
+          setIsWinner(true);
+        }, 2000);
       } else if (!newGuess.includes("")) {
         setIsGuessedWrong(true);
         setGameStatus("wrong");
@@ -119,7 +121,7 @@ const WordGuess = ({ word }) => {
         {guess.map((letter, index) => (
           <div
             key={index}
-            onClick={()=>handleGuessBoxClick(index)}
+            onClick={() => handleGuessBoxClick(index)}
             className={`guess-box ${
               isGuessedCorrect ? "letter-button-correct" : ""
             } ${isGuessedWrong ? "letter-button-wrong" : ""}`}
@@ -128,36 +130,40 @@ const WordGuess = ({ word }) => {
           </div>
         ))}
       </div>
-      <div className="letter-grid">
-        {letterUsed.map((letter, index) => (
-          <button
-            key={index}
-            onClick={() => handleLetterClick(letter, index)}
-            className={`letter-button ${
-              clickedIndices.includes(index) ? "letter-button-done" : ""
-            }`}
-          >
-            {letter}
-          </button>
-        ))}
-      </div>
-      {gameStatus && (
-        <div className={`game-status ${gameStatus}`}>
-          {gameStatus === "correct" ? "Correct" : "Wrong"}
-        </div>
+      {isWinner === null && (
+        <>
+          <div className="letter-grid">
+            {letterUsed.map((letter, index) => (
+              <button
+                key={index}
+                onClick={() => handleLetterClick(letter, index)}
+                className={`letter-button ${
+                  clickedIndices.includes(index) ? "letter-button-done" : ""
+                }`}
+              >
+                {letter}
+              </button>
+            ))}
+          </div>
+          {gameStatus && (
+            <div className={`game-status ${gameStatus}`}>
+              {gameStatus === "correct" ? "Correct" : "Wrong"}
+            </div>
+          )}
+          <div className="guess_manage_btn_cont_G6">
+            <img
+              onClick={handleShuffleArray}
+              className="guess_manage_btn_G6"
+              src={shuffle_btn}
+            />
+            <img
+              onClick={handleClearGuess}
+              className="guess_manage_btn_G6"
+              src={clear_btn}
+            />
+          </div>
+        </>
       )}
-      <div className="guess_manage_btn_cont_G6">
-        <img
-          onClick={handleShuffleArray}
-          className="guess_manage_btn_G6"
-          src={shuffle_btn}
-        />
-        <img
-          onClick={handleClearGuess}
-          className="guess_manage_btn_G6"
-          src={clear_btn}
-        />
-      </div>
     </div>
   );
 };

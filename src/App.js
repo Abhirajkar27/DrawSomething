@@ -12,10 +12,7 @@ function App() {
   let content;
   switch (appPage) {
     case "ChallengeMode":
-      content = <ChallengePlaying setAppPage={setAppPage}/>;
-      break;
-    case "ChallengeModeP2":
-      content = <ChallengePlayP2/>;
+      content = <ChallengePlaying/>;
       break;
     default:
       content = <WordSelection setAppPage={setAppPage}/>; 
