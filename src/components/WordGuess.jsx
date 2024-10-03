@@ -67,7 +67,7 @@ const WordGuess = ({ word }) => {
       updatedLetterUsed[currentIndice] = guess[index];
       setLetterUsed(updatedLetterUsed); 
       
-      const updatedClickedIndices = clickedIndices.slice(1); 
+      const updatedClickedIndices = clickedIndices.slice(1); //this slice method is used to remove 1st element from array...
       setClickedIndices(updatedClickedIndices); 
     }
   
