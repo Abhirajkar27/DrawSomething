@@ -56,6 +56,26 @@ const WordGuess = ({ word }) => {
     setGameStatus(null);
   }
 
+  function handleGuessBoxClick(index) {
+    if (!guess[index]) return; 
+  
+    const updatedGuess = [...guess];
+    const updatedLetterUsed = [...letterUsed];
+    
+    const currentIndice = clickedIndices[0]; 
+    if (currentIndice !== undefined) { 
+      updatedLetterUsed[currentIndice] = guess[index];
+      setLetterUsed(updatedLetterUsed); 
+      
+      const updatedClickedIndices = clickedIndices.slice(1); 
+      setClickedIndices(updatedClickedIndices); 
+    }
+  
+    updatedGuess[index] = ""; 
+    setGuess(updatedGuess); 
+  }
+  
+
   const handleLetterClick = (letter, index) => {
     const newGuess = [...guess];
     if (!clickedIndices.includes(index)) {
@@ -97,6 +117,7 @@ const WordGuess = ({ word }) => {
         {guess.map((letter, index) => (
           <div
             key={index}
+            onClick={()=>handleGuessBoxClick(index)}
             className={`guess-box ${
               isGuessedCorrect ? "letter-button-correct" : ""
             } ${isGuessedWrong ? "letter-button-wrong" : ""}`}
