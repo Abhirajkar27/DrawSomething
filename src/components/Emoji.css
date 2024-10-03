@@ -1,13 +1,14 @@
 .emojionguess {
-    margin-top: 6vh;
-  width: 280px;
-  height: 72px;
+  margin-top: 6vh;
+  width: 78vw;
+  height: 9vh;
   flex-shrink: 0;
-  border-radius: 48px;
+  /* border-radius: 48px; */
+  border-radius: 5vh;
   border: 1px solid #5cd5ff;
   background: var(--Light-Alpha-Light-Alphat--20, rgba(255, 255, 255, 0.2));
   display: flex;
   align-items: center;
   justify-content: center;
-  gap:2vw;
+  gap: 2vw;
 }
