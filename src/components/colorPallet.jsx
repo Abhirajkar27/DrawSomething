@@ -5,7 +5,7 @@ const ColorPallet = (props) => {
   const PalletSvg = ({ colorCode }) => (
     <>
       {props.selColor === colorCode && (
-        <div style={{ position: "relative", marginTop:"2px"}}>
+        <div style={{ position: "relative", marginTop: "2px" }}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="40"
@@ -95,7 +95,9 @@ const ColorPallet = (props) => {
   return (
     <div className="color_pallet">
       {colors.map((color) => (
-        <PalletSvg key={color} colorCode={color} />
+        <div className="color_g6">
+          <PalletSvg key={color} colorCode={color} />
+        </div>
       ))}
     </div>
   );
