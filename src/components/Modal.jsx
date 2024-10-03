@@ -6,10 +6,12 @@ const Modal = ({ showModal, closeModal }) => {
   if (!showModal) return null;
 
   const handleClose = (e) => {
-    if (e.target.classList.contains("modal-background")) {
+    if (e.target.classList.contains("modal-background_G6")) {
       closeModal();
     }
   };
+
+  
 
   return (
     <div className="modal-background_G6" onClick={handleClose}>
