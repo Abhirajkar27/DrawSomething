@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./WordGuess.css";
 import shuffle_btn from "../assets/img/SHUFFLE.png";
 import clear_btn from "../assets/img/CLEAR.png";
+import Emoji from "./Emoji";
 
 const WordGuess = ({ word, isWinner, setIsWinner }) => {
   const [guess, setGuess] = useState(Array(word.length).fill(""));
@@ -164,6 +165,9 @@ const WordGuess = ({ word, isWinner, setIsWinner }) => {
           </div>
         </>
       )}
+      {isWinner!=null &&
+      <Emoji/>
+      }
     </div>
   );
 };
