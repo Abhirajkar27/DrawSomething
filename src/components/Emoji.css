@@ -10,5 +10,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2vw;
+}
+
+.emojiwrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 6.5vh;
 }
