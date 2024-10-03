@@ -4,6 +4,7 @@ import WordSelection from "./Pages/WordSelection";
 import { GameProvider } from "./context/context";
 import ChallengePlaying from "./Pages/ChallengePlaying";
 import Backgrounddots from "./components/Backgrounddots";
+import ChallengePlayP2 from "./Pages/ChallengePlayP2";
 
 
 function App() {
@@ -11,7 +12,10 @@ function App() {
   let content;
   switch (appPage) {
     case "ChallengeMode":
-      content = <ChallengePlaying/>;
+      content = <ChallengePlaying setAppPage={setAppPage}/>;
+      break;
+    case "ChallengeModeP2":
+      content = <ChallengePlayP2/>;
       break;
     default:
       content = <WordSelection setAppPage={setAppPage}/>; 

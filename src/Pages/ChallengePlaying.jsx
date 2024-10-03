@@ -6,7 +6,7 @@ import SubmitnInfo from "../components/SubmitnInfo";
 import Modal from "../components/Modal";
 import vdo_contn from '../assets/img/Drawing_Board.png';
 
-const ChallengePlaying = () => {
+const ChallengePlaying = (props) => {
   const { imgString, challengeTopic, words, videoURL } =
     useContext(GameContext);
   const [selectedWord, setSelectedWord] = useState("");
@@ -51,7 +51,7 @@ const ChallengePlaying = () => {
           setShowModal(true);
         }}
       />
-      <Modal showModal={showModal} closeModal={() => setShowModal(false)} />
+      <Modal showModal={showModal} onConfirm={props.setAppPage} closeModal={() => setShowModal(false)} /> 
     </div>
   );
 };
