@@ -7,7 +7,7 @@ const GameProvider = ({ children }) => {
   const [imgString, setImgString] = useState(null);
   const [isDrawn, setIsDrawn] = useState(false);
   const [playTime, setPlayTime] = useState(0);
-  const [isChallenge, setIsChallenge] = useState(false);
+  const [isChallenge, setIsChallenge] = useState(true);
   const [sender, setSender] = useState("Rahul Mathews");
   const [selectedWord, setSelectedWord] = useState("");
   const [challengeTopic, setChallengeTopic] = useState();
@@ -27,7 +27,7 @@ const GameProvider = ({ children }) => {
 
   useEffect(() => {
     if (isChallenge) {
-      const id = "298e5211-3fec-41fc-882b-8247d9293216";
+      const id = "50439aea-034d-4702-96b3-6866421c6cc7";
       fetch(`http://localhost:5000/data/${id}`)
         .then((response) => response.json())
         .then((data) => {

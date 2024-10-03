@@ -4,6 +4,7 @@ import WordGuess from "../components/WordGuess";
 import "./ChallengePlaying.css";
 import SubmitnInfo from "../components/SubmitnInfo";
 import Modal from "../components/Modal";
+import vdo_contn from '../assets/img/Drawing_Board.png';
 
 const ChallengePlaying = () => {
   const { imgString, challengeTopic, words, videoURL } =
@@ -27,6 +28,7 @@ const ChallengePlaying = () => {
       <div className="instr_P2_G6h5">Guess Rahul Mathews drawing!</div>
       {/* <img src={imgString} alt="Challenge" className='image_P2G6' /> */}
       <div className="videoContainer_P2G6">
+        <img className='vdo_cont_P2G6' src={vdo_contn}/>
         {videoURL && (
           <video
             ref={videoRef}
@@ -36,11 +38,11 @@ const ChallengePlaying = () => {
             controls
           ></video>
         )}
-        {!isVideoPlaying && (
+        {/* {!isVideoPlaying && (
           <button onClick={handleVideoPlay} className="playButton_P2G6">
             Play Video
           </button>
-        )}
+        )} */}
       </div>
       <WordGuess word={wor} />
       <SubmitnInfo

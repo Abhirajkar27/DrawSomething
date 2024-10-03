@@ -5,7 +5,7 @@ import "./SubmitnInfo.css";
 
 const SubmitnInfo = (props) => {
   return (
-    <div className="submitInfo_wrapper" style={{marginTop:"-1vh"}}>
+    <div className="submitInfo_wrapper" style={props.isGiveUp ?{marginTop:"-1.8vh"}:{}}>
       <div
         style={{
           position: "absolute",
