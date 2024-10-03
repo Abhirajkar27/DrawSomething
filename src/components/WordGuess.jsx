@@ -120,7 +120,7 @@ const WordGuess = ({ word }) => {
       </div>
       {gameStatus && (
         <div className={`game-status ${gameStatus}`}>
-          {gameStatus === "correct" ? "Correct!" : "Wrong! Try Again!"}
+          {gameStatus === "correct" ? "Correct" : "Wrong"}
         </div>
       )}
       <div className="guess_manage_btn_cont_G6">

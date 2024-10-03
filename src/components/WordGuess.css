@@ -72,36 +72,56 @@
 
 .letter-button-wrong {
   background: #ffdcdc;
-  color: #FF1F23;
+  color: #ff1f23;
 }
 
 .letter-button-correct {
   background: #edffdc;
-  color: #54FF79;
+  color: #54ff79;
 }
 
 .letter-button-done {
   visibility: hidden;
 }
 
-.letter-button:hover {
-  background-color: #357ae8;
-}
-
 .game-status {
+  position: absolute;
   padding: 10px 20px;
   border-radius: 5px;
   font-weight: bold;
+  top: 30%;
 }
 
 .game-status.correct {
-  background-color: #4caf50;
-  color: white;
+  text-align: center;
+  -webkit-text-stroke-width: 1;
+  -webkit-text-stroke-color: #21983b;
+  font-family: Gilroy;
+  font-size: 64px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+
+  background: linear-gradient(267deg, #a4ff54 3.73%, #00bb28 95.86%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .game-status.wrong {
-  background-color: #f44336;
-  color: white;
+  text-align: center;
+  -webkit-text-stroke-width: 1;
+  -webkit-text-stroke-color: #8b2635;
+  font-family: Gilroy;
+  font-size: 64px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+
+  background: linear-gradient(267deg, #ff5900 3.73%, #ec0000 95.86%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .guess_manage_btn_cont_G6 {
