@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import "./Emoji.css";
 const Emoji = () => {
+  const [selectedIndex, setSelectedIndex] = useState(null);
   return (
     <div className="emojionguess">
-      <div className="emojiwrap">
+      <div
+        className={`emojiwrap ${selectedIndex === 0 ? "emojiSelected" : ""}`}
+        onClick={() => {
+          setSelectedIndex(0);
+        }}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="40"
@@ -95,7 +101,12 @@ const Emoji = () => {
           </defs>
         </svg>
       </div>
-      <div className="emojiwrap">
+      <div
+        className={`emojiwrap ${selectedIndex === 1 ? "emojiSelected" : ""}`}
+        onClick={() => {
+          setSelectedIndex(1);
+        }}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="40"
@@ -219,7 +230,12 @@ const Emoji = () => {
         </svg>
       </div>
 
-      <div className="emojiwrap">
+      <div
+        className={`emojiwrap ${selectedIndex === 2 ? "emojiSelected" : ""}`}
+        onClick={() => {
+          setSelectedIndex(2);
+        }}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="40"
@@ -310,7 +326,12 @@ const Emoji = () => {
         </svg>
       </div>
 
-      <div className="emojiwrap">
+      <div
+        className={`emojiwrap ${selectedIndex === 3 ? "emojiSelected" : ""}`}
+        onClick={() => {
+          setSelectedIndex(3);
+        }}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="40"
@@ -412,7 +433,12 @@ const Emoji = () => {
         </svg>
       </div>
 
-      <div className="emojiwrap">
+      <div
+        className={`emojiwrap ${selectedIndex === 4 ? "emojiSelected" : ""}`}
+        onClick={() => {
+          setSelectedIndex(4);
+        }}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="40"
