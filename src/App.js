@@ -4,7 +4,6 @@ import WordSelection from "./Pages/WordSelection";
 import { GameProvider } from "./context/context";
 import ChallengePlaying from "./Pages/ChallengePlaying";
 import Backgrounddots from "./components/Backgrounddots";
-import ChallengePlayP2 from "./Pages/ChallengePlayP2";
 
 
 function App() {
