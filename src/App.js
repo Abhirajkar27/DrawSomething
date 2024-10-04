@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import '../src/assets/Styles/fonts.css';
 import "./App.css";
 import WordSelection from "./Pages/WordSelection";
 import { GameProvider } from "./context/context";
 import ChallengePlaying from "./Pages/ChallengePlaying";
 import Backgrounddots from "./components/Backgrounddots";
+
 
 
 function App() {

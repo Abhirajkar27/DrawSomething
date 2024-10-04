@@ -81,6 +81,11 @@ const WordGuess = ({ word, isWinner, setIsWinner }) => {
 
   const handleLetterClick = (letter, index) => {
     const newGuess = [...guess];
+    const isNotFilled = guess.some(letter => letter === "");
+    if (!isNotFilled) {
+      console.log("All Blanks Filled!!");
+      return;
+    }
     if (!clickedIndices.includes(index)) {
       setClickedIndices([...clickedIndices, index]);
     }
@@ -165,9 +170,7 @@ const WordGuess = ({ word, isWinner, setIsWinner }) => {
           </div>
         </>
       )}
-      {isWinner!=null &&
-      <Emoji/>
-      }
+      {isWinner != null && <Emoji />}
     </div>
   );
 };
