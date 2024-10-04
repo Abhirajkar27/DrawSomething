@@ -103,8 +103,30 @@ const Paint = (props) => {
     const selectedColor = color;
     const rgbColor = hexToRgb(selectedColor);
 
+    // Pause the recording while flood filling
+    if (
+      mediaRecorderRef.current &&
+      mediaRecorderRef.current.state === "recording"
+    ) {
+      mediaRecorderRef.current.pause();
+      setIsRecordingPaused(true);
+    }
+
     // Perform flood fill
     floodFill(ctx, Math.floor(x), Math.floor(y), rgbColor);
+
+    // Resume recording after flood fill is complete
+    if (
+      mediaRecorderRef.current &&
+      mediaRecorderRef.current.state === "paused"
+    ) {
+      mediaRecorderRef.current.resume();
+      setIsRecordingPaused(false);
+    }
+
+    setTimeout(() => {
+      finishDrawing();
+    }, 1000);
   };
 
   const hexToRgb = (hex) => {
